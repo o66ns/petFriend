@@ -1,3 +1,12 @@
-export default function Home() {
-  return <h2>це домашня сторінка</h2>
+import Hero from '../components/Hero'
+
+const Home = () => {
+  return (
+    <>
+      <Hero />
+      {/* інший контент домашньої сторінки */}
+    </>
+  )
 }
+
+export default Home
