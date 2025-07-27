@@ -1,1 +1,8 @@
 @import "tailwindcss";
+
+@layer base {
+  body {
+    @apply text-gray-800; /* або інший колір */
+    @apply bg-gray-100;
+  }
+}
