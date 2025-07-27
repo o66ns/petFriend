@@ -2,7 +2,34 @@
 
 @layer base {
   body {
-    @apply text-gray-800; /* або інший колір */
-    @apply bg-gray-100;
+    @apply text-gray-800;
+    @apply bg-gray-200;
+  }
+}
+
+@layer utilities {
+
+  .purple-circle::before {
+    content: '';
+    position: absolute;
+    left: 3svh;
+    top: 50svh;
+    width: 50svw;
+    height: 50svw;
+    background-color: #DEC1E9;
+    border-radius: 9999px;
+    z-index: -1;
+  }
+
+  .green-circle::before {
+    content: '';
+    position: absolute;
+    left: 63svw;
+    top: 0;
+    width: 50svw;
+    height: 50svw;
+    background-color: #BDB76B;
+    border-radius: 9999px;
+    z-index: -1;
   }
 }

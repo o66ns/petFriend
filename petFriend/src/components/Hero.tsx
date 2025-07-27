@@ -4,22 +4,22 @@ import AntonCat from '../assets/Anton.png'
 
 const Hero: React.FC = () => {
   return (
-    <section className="h-[80svh] flex justify-between px-[6svw]">
+    <section className="relative h-[85svh] w-screen flex justify-between pt-[5svh] px-[8svw] overflow-hidden">
       
       {/* ліва колонка */}
       <div className="flex flex-col justify-between h-full">
-        <h1 className="pt-[9svh] text-[8svh] font-bold">
+        <h1 className="pt-[4svh] text-[8svh] font-bold">
           Шукаєш <br />
           пухнастого друга? <br />
           Він теж тебе шукає :)
         </h1>
-        <button className="pb-[9svh] text-[6svh] font-bold hover:underline">
+        <button className="pb-[12svh] text-[6svh] font-bold hover:underline purple-circle">
           НАШІ ТВАРИНИ
         </button>
       </div>
 
       {/* права колонка */}
-      <div className="flex-col justify-end">
+      <div className="flex-col justify-end green-circle">
         <img
           src={AntonCat}
           alt="Антон"
