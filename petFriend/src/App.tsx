@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import Nav from './components/Nav'
+import Footer from './components/Footer'
 import Home from './pages/Home'
 import About from './pages/About'
 import Contacts from './pages/Contacts'
@@ -20,6 +21,8 @@ function App() {
         <Route path="/favorites" element={<Favorites />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+
+      <Footer />
 
     </>
   )

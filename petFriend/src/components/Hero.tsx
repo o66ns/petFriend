@@ -1,10 +1,11 @@
 import React from "react"
-import AntonCat from '../assets/Anton.png'
+// import AntonCat from '../assets/Anton.png'
+import Cat from '../assets/cat.png'
 
 
 const Hero: React.FC = () => {
   return (
-    <section className="relative h-[85svh] w-screen flex justify-between pt-[5svh] px-[8svw] overflow-hidden">
+    <section className="relative h-[85svh] w-full flex justify-between pt-[5svh] px-[8svw] overflow-hidden">
       
       {/* ліва колонка */}
       <div className="flex flex-col justify-between h-full">
@@ -21,9 +22,9 @@ const Hero: React.FC = () => {
       {/* права колонка */}
       <div className="flex-col justify-end green-circle">
         <img
-          src={AntonCat}
+          src={Cat}
           alt="Антон"
-          className="h-[80svh] object-contain"
+          className="h-[82.3svh] object-contain"
         />
       </div>
     </section>
