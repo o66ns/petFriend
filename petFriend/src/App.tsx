@@ -3,7 +3,6 @@ import Nav from './components/Nav'
 import Footer from './components/Footer'
 import Home from './pages/Home'
 import About from './pages/About'
-import Contacts from './pages/Contacts'
 import Favorites from './pages/Favorites'
 import NotFound from './pages/NotFound'
 import PetList from './components/PetList'
@@ -19,7 +18,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/contacts" element={<Contacts />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/" element={<PetList />} />
