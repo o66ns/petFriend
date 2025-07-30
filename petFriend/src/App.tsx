@@ -6,6 +6,8 @@ import About from './pages/About'
 import Contacts from './pages/Contacts'
 import Favorites from './pages/Favorites'
 import NotFound from './pages/NotFound'
+import PetList from './components/PetList'
+import PetPage from './pages/PetPage'
 
 
 function App() {
@@ -20,6 +22,8 @@ function App() {
         <Route path="/contacts" element={<Contacts />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/" element={<PetList />} />
+        <Route path="/animals/:id" element={<PetPage />} />
       </Routes>
 
       <Footer />

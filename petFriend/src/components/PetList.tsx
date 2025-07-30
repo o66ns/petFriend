@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
 
 const animals = [
-    { id: 1, name: 'Барсік', image: '/images/cat1.jpg' },
+    { id: 1, name: 'Барсік', image: '/images/cat1.jpg', age: '2 роки', desc: 'Муркотливий котик, любить гратись.' },
     { id: 2, name: 'Барсік', image: '/images/cat1.jpg' },
     { id: 3, name: 'Барсік', image: '/images/cat1.jpg' },
     { id: 4, name: 'Барсік', image: '/images/cat1.jpg' },
@@ -14,14 +15,13 @@ const animals = [
     { id: 11, name: 'Барсік', image: '/images/cat1.jpg' },
     { id: 12, name: 'Барсік', image: '/images/cat1.jpg' },
     { id: 13, name: 'Барсік', image: '/images/cat1.jpg' },
-    // більше...
 ]
 
 const getColsPerRow = (width: number) => {
-    if (width >= 1024) return 4 // lg
-    if (width >= 768) return 3  // md
-    if (width >= 640) return 2  // sm
-    return 1 // мобілка
+    if (width >= 1024) return 4
+    if (width >= 768) return 3
+    if (width >= 640) return 2
+    return 1
 }
 
 const PetList: React.FC = () => {
@@ -32,11 +32,11 @@ const PetList: React.FC = () => {
         const handleResize = () => {
             const newCols = getColsPerRow(window.innerWidth)
             setCols(newCols)
-            setVisibleCount(newCols * 3)
+            setVisibleCount(newCols * 5) // 5 рядків
         }
 
         window.addEventListener("resize", handleResize)
-        handleResize() // викликаємо одразу, бо інакше не покаже при завантаженні
+        handleResize()
 
         return () => window.removeEventListener("resize", handleResize)
     }, [])
@@ -45,7 +45,7 @@ const PetList: React.FC = () => {
     const allShown = visibleCount >= animals.length
 
     const handleShowMore = () => {
-        setVisibleCount(prev => prev + cols * 2) // ще 2 ряди
+        setVisibleCount(prev => prev + cols * 2) // ще 2 рядки
     }
 
     return (
@@ -57,10 +57,14 @@ const PetList: React.FC = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 py-[7svh] px-[4svw]">
                 {visibleAnimals.map((animal) => (
-                    <div key={animal.id} className="h-[68svh] bg-white rounded-2xl shadow p-4 flex flex-col items-center">
+                    <Link
+                        key={animal.id}
+                        to={`/animals/${animal.id}`}
+                        className="h-[68svh] bg-white rounded-2xl shadow p-4 flex flex-col items-center hover:scale-[1.01] transition"
+                    >
                         <img src={animal.image} alt={animal.name} className="w-full h-48 object-cover rounded-xl mb-4" />
                         <h2 className="text-lg font-semibold">{animal.name}</h2>
-                    </div>
+                    </Link>
                 ))}
             </div>
 
