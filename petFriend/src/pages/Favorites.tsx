@@ -1,13 +1,50 @@
+// Favorites.tsx
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
 
-const favoriteAnimals = [
-  { id: 2, name: 'Рекс', image: '/images/dog1.jpg' },
-  { id: 5, name: 'Барсік', image: '/images/cat1.jpg' },
+const allAnimals = [
+  {
+    id: 1,
+    name: 'Барсік',
+    image: '/images/cat1.jpg',
+    age: '2 роки',
+    gender: 'чол',
+    type: 'кіт',
+    breed: 'дворовий',
+    litterTrained: true,
+    vaccinated: true,
+    sterilized: true,
+    color: 'сірий',
+    temperament: 'активний',
+    location: 'Київ',
+    daysOnPetfinder: 45,
+    desc: 'Муркотливий котик, любить гратись.'
+  },
+  {
+    id: 2,
+    name: 'Рекс',
+    image: '/images/dog1.jpg',
+    age: '5 років',
+    gender: 'чол',
+    type: 'пес',
+    breed: 'вівчарка',
+    litterTrained: false,
+    vaccinated: false,
+    sterilized: false,
+    color: 'чорний',
+    temperament: 'спокійний',
+    location: 'Львів',
+    daysOnPetfinder: 12,
+    desc: 'Серйозний охоронець, але добряк.'
+  },
 ]
 
+const favoriteIds = [2, 1] // можеш замінити на useContext або props
+
 const Favorites: React.FC = () => {
-  const [favorites] = useState(favoriteAnimals) // можна замінити на контекст або реальний стейт
+  const [favorites] = useState(
+    allAnimals.filter((a) => favoriteIds.includes(a.id))
+  )
 
   if (favorites.length === 0) {
     return <div className="p-8 text-center text-xl">У тебе немає улюблених тварин :(</div>
@@ -26,6 +63,8 @@ const Favorites: React.FC = () => {
           >
             <img src={animal.image} alt={animal.name} className="w-full h-40 object-cover rounded-xl mb-4" />
             <h2 className="text-lg font-semibold">{animal.name}</h2>
+            <p className="text-sm text-gray-500">{animal.age}</p>
+            <p className="text-sm text-gray-400">{animal.type} • {animal.breed}</p>
           </Link>
         ))}
       </div>
