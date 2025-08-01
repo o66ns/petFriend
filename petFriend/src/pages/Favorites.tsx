@@ -2,13 +2,20 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
 
+const petImages = Object.values(
+  import.meta.glob('../assets/Anton/*.jpg', {
+    eager: true,
+    import: 'default'
+  }) as Record<string, string>
+)
+
 const allAnimals = [
   {
     id: 1,
-    name: 'Барсік',
-    image: '/images/cat1.jpg',
+    name: 'Anton',
+    image: petImages[0],
     age: '2 роки',
-    gender: 'чол',
+    sex: 'чол',
     type: 'кіт',
     breed: 'дворовий',
     litterTrained: true,
@@ -22,10 +29,10 @@ const allAnimals = [
   },
   {
     id: 2,
-    name: 'Рекс',
-    image: '/images/dog1.jpg',
+    name: 'Anton sleeps again',
+    image: petImages[3],
     age: '5 років',
-    gender: 'чол',
+    sex: 'чол',
     type: 'пес',
     breed: 'вівчарка',
     litterTrained: false,

@@ -6,7 +6,9 @@ const Home = () => {
   return (
     <>
       <Hero />
-      <PetList />
+      <div id="pets">
+        <PetList />
+      </div>
     </>
   )
 }

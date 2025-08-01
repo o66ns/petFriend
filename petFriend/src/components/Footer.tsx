@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
 
                     <iframe
                         className="pt-[3.5svh] h-[47svh] w-[25svw]"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.0195989927086!2d-122.41941518468126!3d37.774929779759246!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085808c2f4e4d6f%3A0x5f3658bfb51c2cdb!2sSan%20Francisco%2C%20CA!5e0!3m2!1sen!2sus!4v1614727741901!5m2!1sen!2sus"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d83910.03009298761!2d24.634555076921554!3d48.91180192580711!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4730c16c34b0381d%3A0xd6d32394e59e41c2!2z0IbQstCw0L3Qvi3QpNGA0LDQvdC60ZbQstGB0YzQuiwg0IbQstCw0L3Qvi3QpNGA0LDQvdC60ZbQstGB0YzQutCwINC-0LHQu9Cw0YHRgtGMLCA3NjAwMA!5e0!3m2!1suk!2sua!4v1753972123630!5m2!1suk!2sua"
                         width="300"
                         height="200"
                         style={{ border: 0 }}
@@ -26,10 +26,10 @@ const Footer: React.FC = () => {
                 <div className="w-[22svw] text-[3.2svh]">
                     CONTACTS
 
-                    <div className="pt-[10vh] text-[3svh] text-gray-300">+380 666 6666</div>
-                    <div className="pt-[2svh] text-[3svh] text-gray-300">instagram</div>
-                    <div className="pt-[2svh] text-[3svh] text-gray-300">telegram</div>
-                    <div className="pt-[2svh] text-[3svh] text-gray-300">facebook</div>
+                    <Link to="" className="block pt-[10vh] text-[3svh] text-gray-300">+380 666 6666</Link>
+                    <Link to="" className="block pt-[2svh] text-[3svh] text-gray-300">instagram</Link>
+                    <Link to="" className="block pt-[2svh] text-[3svh] text-gray-300">telegram</Link>
+                    <Link to="" className="block pt-[2svh] text-[3svh] text-gray-300">facebook</Link>
                 </div>
                 <div className="w-[22svw] text-[3.2svh]">
 

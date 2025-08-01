@@ -12,8 +12,8 @@
   .purple-circle::before {
     content: '';
     position: absolute;
-    left: 3svh;
-    top: 50svh;
+    left: -14svw;
+    top: -15svh;
     width: 50svw;
     height: 50svw;
     background-color: #DEC1E9;
