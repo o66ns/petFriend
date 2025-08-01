@@ -1,0 +1,72 @@
+@layer base {
+    body {
+        @apply text-gray-800;
+        @apply bg-gray-200;
+    }
+}
+
+.portrait\:text-sm {
+}
+
+@layer utilities {
+
+    .purple-circle::before {
+        content: '';
+        position: absolute;
+        left: -8svw;
+        top: -9svh;
+        width: 33svh;
+        height: 33svh;
+        background-color: #DEC1E9;
+        border-radius: 9999px;
+        z-index: -1;
+    }
+
+    @media (orientation: landscapem) {
+        .purple-circle::before {
+            content: '';
+            position: absolute;
+            left: -14svw;
+            top: -15svh;
+            width: 50svw;
+            height: 50svw;
+            background-color: #DEC1E9;
+            border-radius: 9999px;
+            z-index: -1;
+        }
+    }
+
+
+    .green-circle::before {
+        content: '';
+        position: absolute;
+        left: -5svh;
+        top: 35svh;
+        width: 80svh;
+        height: 80svh;
+        background-color: #BDB76B;
+        border-radius: 9999px;
+        z-index: -5;
+    }
+
+    @media (orientation: landscape) {
+        .green-circle::before {
+            content: '';
+            position: absolute;
+            left: 63svw;
+            top: 0;
+            width: 50svw;
+            height: 50svw;
+            background-color: #BDB76B;
+            border-radius: 9999px;
+            z-index: -1;
+        }
+    }
+
+
+    @media (orientation: portrait) {
+        .portrait\:text-sm {
+            font-size: 0.875rem;
+        }
+    }
+}

@@ -161,7 +161,7 @@ const PetList: React.FC = () => {
             <div className='pt-[8svh] text-[10svh] font-semibold text-center'>PETS</div>
 
             <div className="px-[4svw] py-6">
-                <div className="bg-white shadow rounded-2xl p-6 grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+                <div className="bg-white shadow rounded-2xl p-6 grid gap-4 grid-cols-2 sm:grid-cols-3 landscape:grid-cols-4 lg:grid-cols-6">
                     <select name="type" onChange={handleFilterChange} className="border rounded-lg p-2">
                         <option value=''>kind of animal</option>
                         <option value="кіт">cat</option>
@@ -211,7 +211,7 @@ const PetList: React.FC = () => {
             </div>
 
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 py-[7svh] px-[4svw]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 landscape:grid-cols-3 lg:grid-cols-4 gap-6 py-[7svh] px-[4svw]">
                 {visibleAnimals.map((animal) => (
                     <Link
                         key={animal.id}

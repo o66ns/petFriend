@@ -10,39 +10,45 @@ const Header: React.FC = () => {
 
     return (
         <>
-            <header className="flex justify-between h-[15svh] px-[3svw] sm:px-[4svw]">
+            <header className="flex justify-between items-center h-[8svh] landscape:h-[15svh] px-[3svw] sm:px-[4svw] pt-[3svh]">
 
-                <div className="flex gap-4">
-                    <Link to="" className="flex gap-4">
+                <div>
+                    <Link to="/" className="flex gap-4">
                         <img
                             src={Logo}
                             alt="petFriend"
-                            className="h-[14svh] pt-[2svh] object-contain"
+                            className="h-[8svh] landscape:h-[14svh]"
                         />
-                        <div className="pt-[5svh] text-[5svh] hidden md:block ">PetFriend</div>
+                        <div className="pt-[5svh] text-[5svh] hidden landscape:block ">PetFriend</div>
                     </Link>
                 </div>
 
-                <button onClick={() => setIsOpen(!isOpen)} className="md:hidden">
-                    {isOpen ? <X size={32} /> : <Menu size={32} />}
-                </button>
+                <nav className={`flex gap-[3svw] fixed top-[4svh] ${isOpen ? 'left-[55svw]' : 'left-[83svw]'} z-50 landscape:static landscape:flex landscape:flex-row landscape:w-auto landscape:py-0 landscape:gap-[3svw]`}>
+                    
 
-                <nav className= {`flex gap-[3svw] md:static md:flex md:flex-row md:w-auto md:py-0 md:gap-[3svw] ${isOpen ? 'flex' : 'hidden'}`}>
-                    <Link to="/favorites" className="pt-[4svh] text-[3.5svh]">
-                        <img
-                            src={Favorite}
-                            alt="Favorite"
-                            className="h-[8svh] object-contain"
-                        />
-                    </Link>
+                    <div className={`${isOpen ? 'flex' : 'hidden'}`}>
 
-                    <Link to="/" className="pt-[4svh] text-[3.5svh]">
-                        <img
-                            src={Profile}
-                            alt="Profile"
-                            className="h-[8.5svh] object-contain"
-                        />
-                    </Link>
+                        <Link to="/favorites">
+                            <img
+                                src={Favorite}
+                                alt="Favorite"
+                                className="h-[12svw] landscape:h-[8svh] object-contain"
+                            />
+                        </Link>
+
+                        <Link to="/">
+                            <img
+                                src={Profile}
+                                alt="Profile"
+                                className="h-[12.75svw] landscape:h-[8.5svh] object-contain"
+                            />
+                        </Link>
+
+                    </div>
+
+                    <button onClick={() => setIsOpen(!isOpen)} className="landscape:hidden">
+                        {isOpen ? <X className="w-[12svw] - h-[12svw]" /> : <Menu className="w-[12svw] h-[12svw]" />}
+                    </button>
                 </nav>
 
             </header>
