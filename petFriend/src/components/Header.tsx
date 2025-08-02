@@ -26,7 +26,7 @@ const Header: React.FC = () => {
                 <nav className={`flex gap-[3svw] fixed top-[4svh] ${isOpen ? 'left-[55svw]' : 'left-[83svw]'} z-50 landscape:static landscape:flex landscape:flex-row landscape:w-auto landscape:py-0 landscape:gap-[3svw]`}>
                     
 
-                    <div className={`${isOpen ? 'flex' : 'hidden'}`}>
+                    <div className={`${isOpen ? 'flex' : 'hidden landscape:flex'}`}>
 
                         <Link to="/favorites">
                             <img

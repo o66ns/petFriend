@@ -59,7 +59,7 @@ const Favorites: React.FC = () => {
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Улюблені тварини</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">FAVORITES</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {favorites.map((animal) => (
