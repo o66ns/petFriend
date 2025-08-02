@@ -3,6 +3,8 @@ import dotenv from 'dotenv'
 import { connectDB } from './db'
 import authRouter from './routes/auth'
 import animalsRouter from './routes/animals'
+import userRouter from './routes/user'
+
 
 connectDB()
 
@@ -13,6 +15,7 @@ const app = express()
 app.use(express.json())
 app.use('/auth', authRouter)
 app.use('/animals', animalsRouter)
+app.use('/api', userRouter)
 
 app.get('/', (_req, res) => {
     res.send('API працює')

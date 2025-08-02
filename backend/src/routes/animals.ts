@@ -2,14 +2,12 @@ import { Router, Request, Response } from 'express'
 import { Animal } from '../models/Animal'
 import { authMiddleware } from '../middleware/authMiddleware'
 
-
 interface AuthRequest extends Request {
     userId?: string
 }
 
 
 const router = Router()
-
 
 
 
