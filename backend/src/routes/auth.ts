@@ -13,6 +13,13 @@ router.post('/register', async (req, res) => {
             return res.status(400).json({ message: 'Email і пароль обовʼязкові' })
         }
 
+        if (typeof email !== 'string' || !email.includes('@')) {
+            return res.status(400).json({ message: 'Некоректний email' })
+        }
+        if (typeof password !== 'string' || password.length < 6) {
+            return res.status(400).json({ message: 'Пароль має містити щонайменше 6 символів' })
+        }
+
         const existingUser = await User.findOne({ email })
         if (existingUser) {
             return res.status(400).json({ message: 'Користувач вже існує' })

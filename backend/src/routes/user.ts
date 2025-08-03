@@ -19,6 +19,9 @@ router.post('/me/favorites/:id', authMiddleware, async (req: AuthRequest, res: R
         if (!user) return res.status(404).json({ message: 'Користувача не знайдено' })
 
         const animalId = req.params.id as string
+        if (!mongoose.Types.ObjectId.isValid(animalId)) {
+            return res.status(400).json({ message: 'Невалідний ID тварини' })
+        }
 
         const animalObjectId = new mongoose.Types.ObjectId(animalId)
 
