@@ -4,6 +4,7 @@ import { connectDB } from './db'
 import authRouter from './routes/auth'
 import animalsRouter from './routes/animals'
 import userRouter from './routes/user'
+import cors from 'cors'
 
 
 connectDB()
@@ -12,6 +13,10 @@ connectDB()
 dotenv.config()
 
 const app = express()
+
+app.use(cors({
+    origin: 'http://localhost:5173'
+}))
 app.use(express.json())
 app.use('/auth', authRouter)
 app.use('/animals', animalsRouter)
