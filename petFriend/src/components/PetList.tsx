@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 
-
-const petImages = Object.values(
-    import.meta.glob('../assets/Anton/*.jpg', {
-        eager: true,
-        import: 'default'
-    }) as Record<string, string>
-)
-
 const getColsPerRow = (width: number) => {
     if (width >= 1024) return 4
     if (width >= 768) return 3
@@ -28,7 +20,7 @@ const PetList: React.FC = () => {
         vaccinated: '',
         sterilized: '',
     })
-    
+
     const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const { name, value } = e.target
         setFilters((prev) => ({ ...prev, [name]: value }))
@@ -138,11 +130,12 @@ const PetList: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 landscape:grid-cols-3 lg:grid-cols-4 gap-6 py-[7svh] px-[4svw]">
                 {visibleAnimals.map((animal) => (
                     <Link
-                        key={animal.id}
-                        to={`/animals/${animal.id}`}
+                        key={animal._id}
+                        to={`/animals/${animal._id}`}
                         className="h-[68svh] bg-white rounded-2xl shadow p-4 flex flex-col items-center hover:scale-[1.01] transition"
                     >
-                        <img src={animal.image} alt={animal.name} className="w-full h-48 object-cover rounded-xl mb-4" />
+                        <img src={animal.image ? `http://localhost:3000/uploads/${animal.image}` : 'https://via.placeholder.com/150'}
+                            className="w-full h-48 object-cover rounded-xl mb-4" />
                         <h2 className="text-lg font-semibold">{animal.name}</h2>
                     </Link>
                 ))}
