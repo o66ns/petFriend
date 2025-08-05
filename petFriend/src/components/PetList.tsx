@@ -9,98 +9,6 @@ const petImages = Object.values(
     }) as Record<string, string>
 )
 
-// petImages.map((img, i) => (
-//     <img key={i} src={img} alt={`anton ${i + 1}`} />
-// ))
-
-const allAnimals = [
-    {
-        id: 1,
-        name: 'Anton',
-        image: petImages[0],
-        age: '2 роки',
-        sex: 'чол',
-        type: 'кіт',
-        breed: 'дворовий',
-        litterTrained: true,
-        vaccinated: true,
-        sterilized: true,
-        color: 'сірий',
-        temperament: 'активний',
-        location: 'Київ',
-        daysOnPetfinder: 45,
-        desc: 'Муркотливий котик, любить гратись.'
-    },
-    {
-        id: 2,
-        name: 'Anton programmer',
-        image: petImages[1],
-        age: '5 років',
-        sex: 'чол',
-        type: 'пес',
-        breed: 'вівчарка',
-        litterTrained: false,
-        vaccinated: false,
-        sterilized: false,
-        color: 'чорний',
-        temperament: 'спокійний',
-        location: 'Львів',
-        daysOnPetfinder: 12,
-        desc: 'Серйозний охоронець, але добряк.'
-    },
-    {
-        id: 3,
-        name: 'Anton sleeps',
-        image: petImages[2],
-        age: '5 років',
-        sex: 'чол',
-        type: 'пес',
-        breed: 'вівчарка',
-        litterTrained: false,
-        vaccinated: false,
-        sterilized: false,
-        color: 'чорний',
-        temperament: 'спокійний',
-        location: 'Львів',
-        daysOnPetfinder: 12,
-        desc: 'Серйозний охоронець, але добряк.'
-    },
-    {
-        id: 4,
-        name: 'Anton sleeps again',
-        image: petImages[3],
-        age: '5 років',
-        sex: 'чол',
-        type: 'пес',
-        breed: 'вівчарка',
-        litterTrained: false,
-        vaccinated: false,
-        sterilized: false,
-        color: 'чорний',
-        temperament: 'спокійний',
-        location: 'Львів',
-        daysOnPetfinder: 12,
-        desc: 'Серйозний охоронець, але добряк.'
-    },
-    {
-        id: 5,
-        name: 'Anton serious',
-        image: petImages[4],
-        age: '5 років',
-        sex: 'чол',
-        type: 'пес',
-        breed: 'вівчарка',
-        litterTrained: false,
-        vaccinated: false,
-        sterilized: false,
-        color: 'чорний',
-        temperament: 'спокійний',
-        location: 'Львів',
-        daysOnPetfinder: 12,
-        desc: 'Серйозний охоронець, але добряк.'
-    },
-]
-
 const getColsPerRow = (width: number) => {
     if (width >= 1024) return 4
     if (width >= 768) return 3
@@ -109,8 +17,10 @@ const getColsPerRow = (width: number) => {
 }
 
 const PetList: React.FC = () => {
+    const [allAnimals, setAllAnimals] = useState<any[]>([])
     const [visibleCount, setVisibleCount] = useState(0)
     const [cols, setCols] = useState(getColsPerRow(window.innerWidth))
+    const isLoggedIn = localStorage.getItem('token') !== null
     const [filters, setFilters] = useState({
         type: '',
         sex: '',
@@ -118,11 +28,25 @@ const PetList: React.FC = () => {
         vaccinated: '',
         sterilized: '',
     })
-
+    
     const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const { name, value } = e.target
         setFilters((prev) => ({ ...prev, [name]: value }))
     }
+
+    useEffect(() => {
+        const fetchAnimals = async () => {
+            try {
+                const res = await fetch('http://localhost:3000/animals')
+                const data = await res.json()
+                setAllAnimals(data)
+            } catch (err) {
+                console.error('помилка при отриманні тварин:', err)
+            }
+        }
+
+        fetchAnimals()
+    }, [])
 
     useEffect(() => {
         const handleResize = () => {
@@ -222,6 +146,14 @@ const PetList: React.FC = () => {
                         <h2 className="text-lg font-semibold">{animal.name}</h2>
                     </Link>
                 ))}
+                {isLoggedIn && (
+                    <Link
+                        to="/AddAnimal"
+                        className="h-[68svh] bg-white rounded-2xl shadow p-4 flex flex-col justify-center items-center text-5xl font-bold text-gray-500 hover:scale-[1.01] transition">
+                        +
+                    </Link>
+                )}
+
             </div>
 
             {!allShown && (

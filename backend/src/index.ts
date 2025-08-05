@@ -21,6 +21,7 @@ app.use(express.json())
 app.use('/auth', authRouter)
 app.use('/animals', animalsRouter)
 app.use('/api', userRouter)
+app.use('/uploads', express.static('uploads'))
 
 app.get('/', (_req, res) => {
     res.send('API працює')

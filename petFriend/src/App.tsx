@@ -7,6 +7,7 @@ import Favorites from './pages/Favorites'
 import NotFound from './pages/NotFound'
 import PetList from './components/PetList'
 import PetPage from './pages/PetPage'
+import AddAnimal from "./components/AddAnimal"
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
         <Route path="/" element={<PetList />} />
         <Route path="/animals/:id" element={<PetPage />} />
+        <Route path="/AddAnimal" element={<AddAnimal />} />
       </Routes>
 
       <Footer />

@@ -1,15 +1,19 @@
-import mongoose from 'mongoose'
+    import mongoose from 'mongoose'
 
-const animalSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    age: Number,
-    gender: String,
-    type: String, // кіт, собака і тд
-    breed: String,
-    color: String,
-    description: String,
-    shelterId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // хто додав
-    createdAt: { type: Date, default: Date.now }
-})
+    const animalSchema = new mongoose.Schema({
+        name: { type: String, required: true },
+        age: Number,
+        sex: String,
+        type: String,
+        breed: String,
+        color: String,
+        temperament: String,
+        location: String,
+        litterTrained: Boolean,
+        vaccinated: Boolean,
+        sterilized: Boolean,
+        image: String,
+        createdAt: { type: Date, default: Date.now }
+    }, { timestamps: true })
 
-export const Animal = mongoose.model('Animal', animalSchema)
+    export const Animal = mongoose.model('Animal', animalSchema)
