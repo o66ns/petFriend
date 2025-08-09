@@ -28,13 +28,13 @@ router.post('/', authMiddleware, upload.single('image'), async (req: AuthRequest
     try {
         const animalData = {
             ...req.body,
-            litterTrained: req.body.litterTrained === 'true',
-            vaccinated: req.body.vaccinated === 'true',
-            sterilized: req.body.sterilized === 'true',
-            age: Number(req.body.age),
+            toilet: req.body.toilet === 'true',
+            vaccine: req.body.vaccine === 'true',
+            sterilization: req.body.sterilization === 'true',
             image: req.file?.filename,
             shelterId: req.userId,
         }
+
 
         const newAnimal = new Animal(animalData)
         const saved = await newAnimal.save()
@@ -53,5 +53,36 @@ router.get('/', async (_req: Request, res: Response) => {
         res.status(500).json({ message: 'Не вдалось отримати тварин' })
     }
 })
+
+router.get('/:id', async (req: Request, res: Response) => {
+    try {
+        const animal = await Animal.findById(req.params.id)
+        if (!animal) {
+            return res.status(404).json({ message: 'Animal not found' })
+        }
+        res.json(animal)
+    } catch (err) {
+        res.status(500).json({ message: 'Error fetching animal' })
+    }
+})
+
+router.delete('/:id', authMiddleware, async (req: AuthRequest, res: Response) => {
+    try {
+        const animalId = req.params.id
+
+        const animal = await Animal.findById(animalId)
+        if (!animal) {
+            return res.status(404).json({ message: 'Тварина не знайдена' })
+        }
+
+        await animal.deleteOne()
+
+        res.json({ message: 'Тварина успішно видалена' })
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({ message: 'Помилка сервера при видаленні тварини' })
+    }
+})
+
 
 export default router

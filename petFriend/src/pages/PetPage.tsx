@@ -1,69 +1,76 @@
-// PetPage.tsx
+import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
-const allAnimals = [
-    {
-        id: 1,
-        name: 'Барсік',
-        image: '/images/cat1.jpg',
-        age: '2 роки',
-        gender: 'чол',
-        type: 'кіт',
-        breed: 'дворовий',
-        litterTrained: true,
-        vaccinated: true,
-        sterilized: true,
-        color: 'сірий',
-        temperament: 'активний',
-        location: 'Київ',
-        daysOnPetfinder: 45,
-        desc: 'Муркотливий котик, любить гратись.'
-    },
-    {
-        id: 2,
-        name: 'Рекс',
-        image: '/images/dog1.jpg',
-        age: '5 років',
-        gender: 'чол',
-        type: 'пес',
-        breed: 'вівчарка',
-        litterTrained: false,
-        vaccinated: false,
-        sterilized: false,
-        color: 'чорний',
-        temperament: 'спокійний',
-        location: 'Львів',
-        daysOnPetfinder: 12,
-        desc: 'Серйозний охоронець, але добряк.'
-    },
-    // інші...
-]
+interface Animal {
+    _id: string
+    name: string
+    image: string
+    age: string
+    sex?: string
+    type: string
+    toilet?: boolean
+    vaccine?: boolean
+    sterilization?: boolean
+    kidFriendly?: boolean
+    animalFriendly?: boolean
+    color?: string
+    temperament?: string
+    description?: string
+}
 
 const PetPage: React.FC = () => {
-    const { id } = useParams()
-    const pet = allAnimals.find((a) => a.id === Number(id))
+    const { id } = useParams<{ id: string }>()
+    const [animal, setAnimal] = useState<Animal | null>(null)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
 
-    if (!pet) {
-        return <div className="p-10 text-center text-2xl">Тваринку не знайдено :(</div>
-    }
+    useEffect(() => {
+        if (!id) return
+
+        const fetchAnimal = async () => {
+            try {
+                setLoading(true)
+                const res = await fetch(`http://localhost:3000/animals/${id}`)
+                if (!res.ok) throw new Error('Failed to fetch animal')
+                const data: Animal = await res.json()
+                setAnimal(data)
+            } catch (e: any) {
+                setError(e.message || 'Error')
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchAnimal()
+    }, [id])
+
+    if (loading) return <div className="p-10 text-center">Loading...</div>
+    if (error) return <div className="p-10 text-center text-red-600">Error: {error}</div>
+    if (!animal) return <div className="p-10 text-center">Animal not found :(</div>
 
     return (
         <div className="p-8 max-w-3xl mx-auto">
-            <Link to="/" className="text-blue-600 underline mb-6 inline-block">← назад до списку</Link>
+            <Link to="/" className="text-black underline mb-6 inline-block">← back to list</Link>
 
-            <img src={pet.image} alt={pet.name} className="w-full max-w-md object-cover rounded-2xl mb-6 mx-auto" />
+            <img
+                src={animal.image.startsWith('http') ? animal.image : `http://localhost:3000/uploads/${animal.image}`}
+                alt={animal.name}
+                className="w-full max-w-md object-cover rounded-2xl mb-6 mx-auto"
+            />
 
-            <h1 className="text-4xl font-bold mb-2 text-center">{pet.name}</h1>
-            <p className="text-center text-gray-500 text-lg mb-2">{pet.age}</p>
-            <p className="text-center text-gray-500 text-md mb-2">{pet.gender}, {pet.type}, {pet.breed}</p>
-            <p className="text-center text-gray-500 text-md mb-2">Колір: {pet.color}, Характер: {pet.temperament}</p>
-            <p className="text-center text-gray-500 text-md mb-2">Привчена до лотка: {pet.litterTrained ? 'так' : 'ні'}</p>
-            <p className="text-center text-gray-500 text-md mb-2">Вакцинована: {pet.vaccinated ? 'так' : 'ні'}</p>
-            <p className="text-center text-gray-500 text-md mb-2">Стерилізована: {pet.sterilized ? 'так' : 'ні'}</p>
-            <p className="text-center text-gray-500 text-md mb-2">Розташування: {pet.location}</p>
-            <p className="text-center text-gray-500 text-md mb-6">{pet.daysOnPetfinder} днів чекає на дім</p>
+            <h1 className="text-4xl font-bold mb-2 text-center">{animal.name}</h1>
+            <p className="text-center text-gray-500 text-lg mb-2">{animal.age}</p>
+            <p className="text-center text-gray-500 text-md mb-2">
+                {animal.sex === 'male' ? 'Male' : animal.sex === 'female' ? 'Female' : 'Unknown'}, {animal.type}
+            </p>
+            <p className="text-center text-gray-500 text-md mb-2">Color: {animal.color || 'Unknown'}, Temperament: {animal.temperament || 'Unknown'}</p>
+            <p className="text-center text-gray-500 text-md mb-2">Toilet trained: {animal.toilet ? 'Yes' : 'No'}</p>
+            <p className="text-center text-gray-500 text-md mb-2">Vaccinated: {animal.vaccine ? 'Yes' : 'No'}</p>
+            <p className="text-center text-gray-500 text-md mb-2">Sterilized: {animal.sterilization ? 'Yes' : 'No'}</p>
+            <p className="text-center text-gray-500 text-md mb-2">Kid-friendly: {animal.kidFriendly ? 'Yes' : 'No'}</p>
+            <p className="text-center text-gray-500 text-md mb-2">Animal-friendly: {animal.animalFriendly ? 'Yes' : 'No'}</p>
 
-            <p className="text-lg leading-relaxed">{pet.desc}</p>
+            <p className="text-lg leading-relaxed">{animal.description || 'No description available.'}</p>
         </div>
     )
 }

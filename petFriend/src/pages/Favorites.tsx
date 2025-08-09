@@ -94,7 +94,7 @@ const Favorites: React.FC = () => {
               />
               <h2 className="text-lg font-semibold">{animal.name}</h2>
               <p className="text-sm text-gray-500">{animal.age}</p>
-              <p className="text-sm text-gray-400">{animal.type} • {animal.breed}</p>
+              <p className="text-sm text-gray-400">{animal.type} • {animal.temperament}</p>
             </Link>
             <button
               onClick={(e) => {

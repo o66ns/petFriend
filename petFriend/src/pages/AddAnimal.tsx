@@ -4,29 +4,30 @@ import { useNavigate } from 'react-router-dom'
 const AddAnimal: React.FC = () => {
     const [formData, setFormData] = useState({
         name: '',
+        type: '',
         age: '',
         sex: '',
-        type: '',
-        breed: '',
         color: '',
         temperament: '',
-        location: '',
-        litterTrained: false,
-        vaccinated: false,
-        sterilized: false,
+        toilet: false,
+        vaccine: false,
+        sterilization: false,
+        description: '',
+        kidFriendly: false,
+        animalFriendly: false,
         image: null as File | null,
     })
     const navigate = useNavigate()
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const { name, value, type } = e.target
-        const isCheckbox = type === 'checkbox'
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target
+    const isCheckbox = type === 'checkbox'
 
-        setFormData((prev) => ({
-            ...prev,
-            [name]: isCheckbox ? (e.target as HTMLInputElement).checked : value,
-        }))
-    }
+    setFormData((prev) => ({
+        ...prev,
+        [name]: isCheckbox ? (e.target as HTMLInputElement).checked : value,
+    }))
+}
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0] || null
@@ -41,16 +42,13 @@ const AddAnimal: React.FC = () => {
 
         const form = new FormData()
 
-        
         Object.entries(formData).forEach(([key, value]) => {
             if (value === null) return
 
             if (key === 'image' && value instanceof File) {
                 form.append('image', value)
-            } else if (typeof value === 'boolean') {    
+            } else if (typeof value === 'boolean') {
                 form.append(key, String(value))
-            } else if (key === 'age') {
-                form.append('age', String(Number(value)))
             } else {
                 form.append(key, value as string)
             }
@@ -67,13 +65,13 @@ const AddAnimal: React.FC = () => {
 
             if (res.ok) {
                 navigate('/')
-                alert('Тварина додана')
+                alert('Animal added')
             } else {
                 const errorData = await res.json().catch(() => null)
-                alert('Помилка: ' + (errorData?.error || res.statusText))
+                alert('Error: ' + (errorData?.error || res.statusText))
             }
-        } catch (err) {
-            alert('Помилка запиту')
+        } catch {
+            alert('Request error')
         }
     }
 
@@ -82,38 +80,157 @@ const AddAnimal: React.FC = () => {
             onSubmit={handleSubmit}
             className="p-[4svh] m-[8svh] max-w-xl mx-auto flex flex-col gap-4 bg-white rounded-xl shadow"
         >
-            <input name="name" placeholder="Імʼя" onChange={handleChange} required className="border p-2 rounded" />
-            <input name="age" type="number" placeholder="Вік" onChange={handleChange} required className="border p-2 rounded" />
-            <select name="sex" onChange={handleChange} required className="border p-2 rounded">
-                <option value="">Стать</option>
-                <option value="чол">Чол</option>
-                <option value="жін">Жін</option>
+            <input
+                name="name"
+                placeholder="Name"
+                onChange={handleChange}
+                required
+                className="border p-2 rounded"
+                value={formData.name}
+            />
+
+            <select
+                name="age"
+                onChange={handleChange}
+                required
+                className="border p-2 rounded"
+                value={formData.age}
+            >
+                <option value="">Age</option>
+                <option value="<6 months">&lt;6 months</option>
+                <option value="<1 year">&lt;1 year</option>
+                <option value="1-3 years">1-3 years</option>
+                <option value="3-6 years">3-6 years</option>
+                <option value="6-10 years">6-10 years</option>
+                <option value="10+ years">10+ years</option>
             </select>
-            <input name="type" placeholder="Тип" onChange={handleChange} className="border p-2 rounded" />
-            <input name="breed" placeholder="Порода" onChange={handleChange} className="border p-2 rounded" />
-            <input name="color" placeholder="Колір" onChange={handleChange} className="border p-2 rounded" />
-            <input name="temperament" placeholder="Характер" onChange={handleChange} className="border p-2 rounded" />
-            <input name="location" placeholder="Місто" onChange={handleChange} className="border p-2 rounded" />
+
+            <select
+                name="sex"
+                onChange={handleChange}
+                className="border p-2 rounded"
+                value={formData.sex}
+            >
+                <option value="">Sex</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+
+            <select
+                name="type"
+                onChange={handleChange}
+                required
+                className="border p-2 rounded"
+                value={formData.type}
+            >
+                <option value="">Type</option>
+                <option value="cat">Cat</option>
+                <option value="dog">Dog</option>
+                <option value="bird">Bird</option>
+                <option value="rodent">Rodent</option>
+                <option value="fish">Fish</option>
+                <option value="reptile">Reptile</option>
+                <option value="exotic animal">Exotic animal</option>
+                <option value="domestic animal">Domestic animal</option>
+            </select>
+
+            <select
+                name="color"
+                onChange={handleChange}
+                className="border p-2 rounded"
+                value={formData.color}
+            >
+                <option value="">Color</option>
+                <option value="black">Black</option>
+                <option value="white">White</option>
+                <option value="grey">Grey</option>
+                <option value="red">Red</option>
+                <option value="brown">Brown</option>
+                <option value="bicolor">Bicolor</option>
+                <option value="tricolor">Tricolor</option>
+            </select>
+
+            <select
+                name="temperament"
+                onChange={handleChange}
+                className="border p-2 rounded"
+                value={formData.temperament}
+            >
+                <option value="">Temperament</option>
+                <option value="calm and peaceful">Calm and peaceful</option>
+                <option value="active and playful">Active and playful</option>
+                <option value="shy and cautious">Shy and cautious</option>
+                <option value="aggressive and independent">Aggressive and independent</option>
+            </select>
 
             <label className="flex items-center gap-2">
-                <input type="checkbox" name="litterTrained" onChange={handleChange} />
-                Привчений до лотка
+                <input
+                    type="checkbox"
+                    name="toilet"
+                    onChange={handleChange}
+                    checked={formData.toilet}
+                />
+                Toilet trained
             </label>
 
             <label className="flex items-center gap-2">
-                <input type="checkbox" name="vaccinated" onChange={handleChange} />
-                Вакцинований
+                <input
+                    type="checkbox"
+                    name="vaccine"
+                    onChange={handleChange}
+                    checked={formData.vaccine}
+                />
+                Vaccinated
             </label>
 
             <label className="flex items-center gap-2">
-                <input type="checkbox" name="sterilized" onChange={handleChange} />
-                Стерилізований
+                <input
+                    type="checkbox"
+                    name="sterilization"
+                    onChange={handleChange}
+                    checked={formData.sterilization}
+                />
+                Sterilized
             </label>
 
-            <input type="file" name="image" accept="image/*" onChange={handleFileChange} />
+            <label className="flex items-center gap-2">
+                <input
+                    type="checkbox"
+                    name="kidFriendly"
+                    onChange={handleChange}
+                    checked={formData.kidFriendly}
+                />
+                Kid-friendly
+            </label>
+
+            <label className="flex items-center gap-2">
+                <input
+                    type="checkbox"
+                    name="animalFriendly"
+                    onChange={handleChange}
+                    checked={formData.animalFriendly}
+                />
+                Animal-friendly
+            </label>
+
+            <textarea
+                name="description"
+                placeholder="Description"
+                onChange={handleChange}
+                className="border p-2 rounded resize-y"
+                value={formData.description}
+            />
+
+            <input
+                type="file"
+                name="image"
+                accept="image/*"
+                onChange={handleFileChange}
+                required
+            />
 
             <button type="submit" className="bg-black text-white py-2 rounded">
-                Додати тварину
+                Add Animal
             </button>
         </form>
     )
