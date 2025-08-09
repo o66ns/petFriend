@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom'
 
 interface DecodedToken {
     userId: string
-    email?: string // якщо email в токен не включений, цей тип не обов'язковий
+    email?: string 
     exp: number
 }
 

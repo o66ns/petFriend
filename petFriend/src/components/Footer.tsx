@@ -53,11 +53,11 @@ const Footer: React.FC = () => {
                     <div className={`mt-[2vh] ${openBlock === 'contacts' ? '' : 'hidden'} landscape:block`}>
                         <Link to="" className="block pt-[4vh] text-[2.3vh] text-gray-300
                                               landscape:pt-[10vh] landscape:text-[3svh]">+380 666 6666</Link>
-                        <Link to="" className="block pt-[2vh] text-[2.3vh] text-gray-300
+                        <Link to="https://www.instagram.com/" className="block pt-[2vh] text-[2.3vh] text-gray-300
                                               landscape:text-[3svh]">instagram</Link>
-                        <Link to="" className="block pt-[2vh] text-[2.3vh] text-gray-300
+                        <Link to="https://web.telegram.org/k/" className="block pt-[2vh] text-[2.3vh] text-gray-300
                                               landscape:text-[3svh]">telegram</Link>
-                        <Link to="" className="block pt-[2vh] text-[2.3vh] text-gray-300
+                        <Link to="https://www.facebook.com/" className="block pt-[2vh] text-[2.3vh] text-gray-300
                                               landscape:text-[3svh]">facebook</Link>
                     </div>
                 </div>

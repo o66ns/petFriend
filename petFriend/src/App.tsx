@@ -7,7 +7,7 @@ import Favorites from './pages/Favorites'
 import NotFound from './pages/NotFound'
 import PetList from './components/PetList'
 import PetPage from './pages/PetPage'
-import AddAnimal from "./components/AddAnimal"
+import AddAnimal from "./pages/AddAnimal"
 
 
 function App() {

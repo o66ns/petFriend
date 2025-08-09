@@ -8,7 +8,7 @@ const router = Router()
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, '..', 'uploads'))
+        cb(null, path.resolve('uploads'))
     },
     filename: (req, file, cb) => {
         const ext = file.originalname.split('.').pop()

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
+import AuthModal from './AuthModal'
 
 const getColsPerRow = (width: number) => {
     if (width >= 1024) return 4
@@ -8,23 +9,17 @@ const getColsPerRow = (width: number) => {
     return 1
 }
 
+
+
 const PetList: React.FC = () => {
     const [allAnimals, setAllAnimals] = useState<any[]>([])
     const [visibleCount, setVisibleCount] = useState(0)
     const [cols, setCols] = useState(getColsPerRow(window.innerWidth))
     const isLoggedIn = localStorage.getItem('token') !== null
-    const [filters, setFilters] = useState({
-        type: '',
-        sex: '',
-        litterTrained: '',
-        vaccinated: '',
-        sterilized: '',
-    })
 
-    const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const { name, value } = e.target
-        setFilters((prev) => ({ ...prev, [name]: value }))
-    }
+
+
+
 
     useEffect(() => {
         const fetchAnimals = async () => {
@@ -53,6 +48,29 @@ const PetList: React.FC = () => {
         return () => window.removeEventListener("resize", handleResize)
     }, [])
 
+
+
+
+
+    // Filter
+
+
+    const [filters, setFilters] = useState({
+        type: '',
+        sex: '',
+        litterTrained: '',
+        vaccinated: '',
+        sterilized: '',
+    })
+
+
+    const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const { name, value } = e.target
+        setFilters((prev) => ({ ...prev, [name]: value }))
+    }
+
+
+
     const filteredAnimals = allAnimals
         .filter((a) =>
             (!filters.type || a.type === filters.type) &&
@@ -69,6 +87,97 @@ const PetList: React.FC = () => {
     const handleShowMore = () => {
         setVisibleCount((prev) => prev + cols * 2)
     }
+
+
+
+
+
+    // Favorites
+
+
+
+
+
+
+    const [favorites, setFavorites] = useState<string[]>([])
+    const [favoritesLoaded, setFavoritesLoaded] = useState(false)
+    const [token, setToken] = useState<string | null>(localStorage.getItem('token'))
+    const [showAuth, setShowAuth] = useState(false)
+    const [pendingFavoriteId, setPendingFavoriteId] = useState<string | null>(null)
+
+
+
+
+
+    useEffect(() => {
+        const fetchFavorites = async () => {
+            try {
+                const res = await fetch('http://localhost:3000/api/me/favorites', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                const data = await res.json()
+
+                const ids = data.map((animal: any) => animal._id)
+
+                setFavorites(ids)
+                setFavoritesLoaded(true)
+
+            } catch (err) {
+                console.error('не вдалось завантажити улюблених:', err)
+            }
+        }
+
+        fetchFavorites()
+    }, [token])
+
+
+    const toggleFavorite = async (id: string) => {
+
+        const isFav = favorites.includes(id)
+
+        setFavorites((prev) =>
+            isFav ? prev.filter((favId) => favId !== id) : [...prev, id]
+        )
+
+        if (token) {
+            try {
+                const res = await fetch(`http://localhost:3000/api/me/favorites/${id}`, {
+                    method: isFav ? 'DELETE' : 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+
+                if (!res.ok) {
+                    throw new Error('не вдалось оновити улюблене')
+                }
+                if (!token) {
+                    throw new Error('немає токена')
+                }
+            } catch (err) {
+                console.error('фейл при оновленні улюбленого:', err)
+                setFavorites((prev) =>
+                    isFav ? [...prev, id] : prev.filter((favId) => favId !== id)
+                )
+            }
+        } else {
+            setShowAuth(true)
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     return (
         <div className="relative">
@@ -129,15 +238,34 @@ const PetList: React.FC = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 landscape:grid-cols-3 lg:grid-cols-4 gap-6 py-[7svh] px-[4svw]">
                 {visibleAnimals.map((animal) => (
-                    <Link
-                        key={animal._id}
-                        to={`/animals/${animal._id}`}
-                        className="h-[68svh] bg-white rounded-2xl shadow p-4 flex flex-col items-center hover:scale-[1.01] transition"
-                    >
-                        <img src={animal.image ? `http://localhost:3000/uploads/${animal.image}` : 'https://via.placeholder.com/150'}
-                            className="w-full h-48 object-cover rounded-xl mb-4" />
-                        <h2 className="text-lg font-semibold">{animal.name}</h2>
-                    </Link>
+                    <div key={animal._id} className="relative">
+                        <Link
+                            to={`/animals/${animal._id}`}
+                            className="h-[68svh]  z-0 bg-white rounded-2xl shadow p-4 flex flex-col items-center hover:scale-[1.01] transition"
+                        >
+                            <img src={animal.image ? `http://localhost:3000/uploads/${animal.image}` : 'https://via.placeholder.com/150'}
+                                className="w-full h-48 object-cover rounded-xl mb-4" />
+                            <h2 className="text-lg font-semibold">{animal.name}</h2>
+                        </Link>
+
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault()
+                                if (isLoggedIn && favoritesLoaded) {
+                                    toggleFavorite(animal._id)
+                                } else {
+                                    setPendingFavoriteId(animal._id)
+                                    setShowAuth(true)
+                                }
+                            }}
+                            className="absolute top-2 right-2 z-20 text-2xl"
+                        >
+                            <span className={(((favorites.includes(animal._id) && favoritesLoaded) ?? !isLoggedIn) ? 'text-red-500' : 'text-black') + '  bg-white rounded-xl p-1 inline-flex items-center justify-center text-[5svh] w-[7svh] h-[7svh]'}>
+                                ❤︎
+                            </span>
+                        </button>
+
+                    </div>
                 ))}
                 {isLoggedIn && (
                     <Link
@@ -146,6 +274,7 @@ const PetList: React.FC = () => {
                         +
                     </Link>
                 )}
+
 
             </div>
 
@@ -161,6 +290,24 @@ const PetList: React.FC = () => {
             )}
 
             <div className="absolute bottom-0 left-0 w-full h-[6svh] bg-gradient-to-t from-black/10 to-transparent pointer-events-none z-10" />
+
+            {showAuth && (
+                <AuthModal
+                    onClose={() => {
+                        setShowAuth(false)
+                        setPendingFavoriteId(null)
+                    }}
+                    onSuccess={(newToken) => {
+                        setToken(newToken)
+                        setShowAuth(false)
+
+                        if (pendingFavoriteId) {
+                            toggleFavorite(pendingFavoriteId)
+                            setPendingFavoriteId(null)
+                        }
+                    }}
+                />
+            )}
         </div>
     )
 }

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const AddAnimal: React.FC = () => {
     const [formData, setFormData] = useState({
@@ -15,6 +16,7 @@ const AddAnimal: React.FC = () => {
         sterilized: false,
         image: null as File | null,
     })
+    const navigate = useNavigate()
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value, type } = e.target
@@ -39,14 +41,14 @@ const AddAnimal: React.FC = () => {
 
         const form = new FormData()
 
-        // обробка текстових / логічних / числових полів
+        
         Object.entries(formData).forEach(([key, value]) => {
-            if (value === null) return // image === null або щось інше порожнє
+            if (value === null) return
 
             if (key === 'image' && value instanceof File) {
-                form.append('image', value) // value тут точно File
+                form.append('image', value)
             } else if (typeof value === 'boolean') {    
-                form.append(key, String(value)) // boolean → "true"/"false"
+                form.append(key, String(value))
             } else if (key === 'age') {
                 form.append('age', String(Number(value)))
             } else {
@@ -64,6 +66,7 @@ const AddAnimal: React.FC = () => {
             })
 
             if (res.ok) {
+                navigate('/')
                 alert('Тварина додана')
             } else {
                 const errorData = await res.json().catch(() => null)
