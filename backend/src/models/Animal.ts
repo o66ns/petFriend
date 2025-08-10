@@ -57,8 +57,8 @@ const animalSchema = new mongoose.Schema({
     sterilization: {type: Boolean, required: true, default: false },
     kidFriendly: {type: Boolean, required: true, default: false },
     animalFriendly: {type: Boolean, required: true, default: false },
-    description: String,
-    image: {type: String},
+    description: {type: String, required: true},
+    image: {type: String, required: true},
 }, { timestamps: false })
 
 export const Animal = mongoose.model('Animal', animalSchema)

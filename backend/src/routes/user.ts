@@ -7,20 +7,16 @@ interface AuthRequest extends Request {
     userId?: string
 }
 
-
 const router = Router()
-
-
-
 
 router.post('/me/favorites/:id', authMiddleware, async (req: AuthRequest, res: Response) => {
     try {
         const user = await User.findById(req.userId)
-        if (!user) return res.status(404).json({ message: 'Користувача не знайдено' })
+        if (!user) return res.status(404).json({ message: 'User not found' })
 
         const animalId = req.params.id as string
         if (!mongoose.Types.ObjectId.isValid(animalId)) {
-            return res.status(400).json({ message: 'Невалідний ID тварини' })
+            return res.status(400).json({ message: 'Invalid animal ID' })
         }
 
         const animalObjectId = new mongoose.Types.ObjectId(animalId)
@@ -30,34 +26,33 @@ router.post('/me/favorites/:id', authMiddleware, async (req: AuthRequest, res: R
         )
 
         if (alreadyInFavorites) {
-            return res.status(400).json({ message: 'Тварина вже у фаворитах' })
+            return res.status(400).json({ message: 'Animal already in favorites' })
         }
 
-        //user.favorites.push(animalId)
         user.favorites.push(new mongoose.Types.ObjectId(animalId))
         await user.save()
 
-        res.json({ message: 'Тварина додана у фаворити' })
+        res.json({ message: 'Animal added to favorites' })
     } catch (err) {
-        res.status(500).json({ message: 'Помилка сервера' })
+        res.status(500).json({ message: 'Server error' })
     }
 })
 
 router.get('/me/favorites', authMiddleware, async (req: AuthRequest, res: Response) => {
     try {
         const user = await User.findById(req.userId).populate('favorites')
-        if (!user) return res.status(404).json({ message: 'Користувача не знайдено' })
+        if (!user) return res.status(404).json({ message: 'User not found' })
 
         res.json(user.favorites)
     } catch (err) {
-        res.status(500).json({ message: 'Помилка сервера' })
+        res.status(500).json({ message: 'Server error' })
     }
 })
 
 router.delete('/me/favorites/:id', authMiddleware, async (req: AuthRequest, res: Response) => {
     try {
         const user = await User.findById(req.userId)
-        if (!user) return res.status(404).json({ message: 'Користувача не знайдено' })
+        if (!user) return res.status(404).json({ message: 'User not found' })
 
         const animalId = req.params.id as string
         const animalObjectId = new mongoose.Types.ObjectId(animalId)
@@ -65,11 +60,10 @@ router.delete('/me/favorites/:id', authMiddleware, async (req: AuthRequest, res:
         user.favorites = user.favorites.filter(fav => fav.toString() !== animalObjectId.toString())
 
         await user.save()
-        res.json({ message: 'Тварина видалена з фаворитів' })
+        res.json({ message: 'Animal removed from favorites' })
     } catch {
-        res.status(500).json({ message: 'Помилка сервера' })
+        res.status(500).json({ message: 'Server error' })
     }
 })
-
 
 export default router

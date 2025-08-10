@@ -13,7 +13,6 @@ const Footer: React.FC = () => {
             <div className="w-[90vw] mx-auto flex flex-col gap-[6vh] items-center
                             landscape:flex-row landscape:justify-between landscape:items-start landscape:w-[80svw]">
 
-                {/* LOCATION */}
                 <div className="w-full text-center text-[2.5vh] 
                                 landscape:text-left landscape:w-[22svw] landscape:text-[3.2svh]">
                     <button onClick={() => toggle('location')} className="w-full flex justify-between items-center">
@@ -40,7 +39,6 @@ const Footer: React.FC = () => {
                     </div>
                 </div>
 
-                {/* CONTACTS */}
                 <div className="w-full text-center text-[2.5vh] 
                                 landscape:text-left landscape:w-[22svw] landscape:text-[3.2svh]">
                     <button onClick={() => toggle('contacts')} className="w-full flex justify-between items-center">
@@ -55,14 +53,11 @@ const Footer: React.FC = () => {
                                               landscape:pt-[10vh] landscape:text-[3svh]">+380 666 6666</Link>
                         <Link to="https://www.instagram.com/" className="block pt-[2vh] text-[2.3vh] text-gray-300
                                               landscape:text-[3svh]">instagram</Link>
-                        <Link to="https://web.telegram.org/k/" className="block pt-[2vh] text-[2.3vh] text-gray-300
-                                              landscape:text-[3svh]">telegram</Link>
                         <Link to="https://www.facebook.com/" className="block pt-[2vh] text-[2.3vh] text-gray-300
                                               landscape:text-[3svh]">facebook</Link>
                     </div>
                 </div>
 
-                {/* PAGES */}
                 <div className="w-full text-center text-[2.5vh] 
                                 landscape:text-left landscape:w-[22svw] landscape:text-[3.2svh]">
                     <button onClick={() => toggle('pages')} className="w-full flex justify-between items-center">
@@ -80,7 +75,6 @@ const Footer: React.FC = () => {
                         <Link to="/About" className="block pt-[2vh] text-[2.3vh] text-gray-300
                                                     landscape:text-[3svh]">About us</Link>
 
-                        {/* копірайт тільки в landscape */}
                         <div className="hidden landscape:block pt-[22svh] text-[2.5svh] text-gray-400">
                             © Copyright. All right reserved
                         </div>
@@ -88,7 +82,6 @@ const Footer: React.FC = () => {
                 </div>
             </div>
 
-            {/* копірайт тільки для portrait */}
             <div className="block pt-[4vh] text-[1.8vh] text-gray-400 landscape:hidden text-center">
                 © Copyright. All right reserved
             </div>

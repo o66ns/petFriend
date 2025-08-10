@@ -19,7 +19,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage })
 
-
 interface AuthRequest extends Request {
     userId?: string
 }
@@ -35,13 +34,12 @@ router.post('/', authMiddleware, upload.single('image'), async (req: AuthRequest
             shelterId: req.userId,
         }
 
-
         const newAnimal = new Animal(animalData)
         const saved = await newAnimal.save()
 
         res.status(201).json(saved)
     } catch (err) {
-        res.status(500).json({ message: 'Помилка при створенні тварини' })
+        res.status(500).json({ message: 'Error creating animal' })
     }
 })
 
@@ -50,7 +48,7 @@ router.get('/', async (_req: Request, res: Response) => {
         const animals = await Animal.find()
         res.json(animals)
     } catch (err) {
-        res.status(500).json({ message: 'Не вдалось отримати тварин' })
+        res.status(500).json({ message: 'Failed to fetch animals' })
     }
 })
 
@@ -72,17 +70,16 @@ router.delete('/:id', authMiddleware, async (req: AuthRequest, res: Response) =>
 
         const animal = await Animal.findById(animalId)
         if (!animal) {
-            return res.status(404).json({ message: 'Тварина не знайдена' })
+            return res.status(404).json({ message: 'Animal not found' })
         }
 
         await animal.deleteOne()
 
-        res.json({ message: 'Тварина успішно видалена' })
+        res.json({ message: 'Animal successfully deleted' })
     } catch (err) {
         console.error(err)
-        res.status(500).json({ message: 'Помилка сервера при видаленні тварини' })
+        res.status(500).json({ message: 'Server error while deleting animal' })
     }
 })
-
 
 export default router

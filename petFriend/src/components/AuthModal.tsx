@@ -27,7 +27,6 @@ const AuthModal: React.FC<Props> = ({ onClose, onSuccess }) => {
                 localStorage.setItem('token', data.token)
                 onSuccess(data.token)
             } else {
-                // одразу логіним після реєстрації
                 const loginRes = await fetch('http://localhost:3000/auth/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -50,7 +49,7 @@ const AuthModal: React.FC<Props> = ({ onClose, onSuccess }) => {
         <div className="fixed inset-0 bg-[rgba(0,0,0,0.73)] flex items-center justify-center z-50">
             <div className="bg-neutral-100 p-4 rounded w-[80vw] max-w-[400px]">
                 <h2 className="text-lg font-bold mb-2">
-                    {mode === 'login' ? 'Увійти' : 'Зареєструватися'}
+                    {mode === 'login' ? 'Log In' : 'Register'}
                 </h2>
                 <input
                     type="email"
@@ -61,7 +60,7 @@ const AuthModal: React.FC<Props> = ({ onClose, onSuccess }) => {
                 />
                 <input
                     type="password"
-                    placeholder="Пароль"
+                    placeholder="Password"
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                     className="border p-2 w-full mb-2"
@@ -70,12 +69,12 @@ const AuthModal: React.FC<Props> = ({ onClose, onSuccess }) => {
 
                 <div className="flex justify-between items-center mt-2 text-sm">
                     <button onClick={() => setMode(mode === 'login' ? 'register' : 'login')} className="underline">
-                        {mode === 'login' ? 'Немає акаунту?' : 'Вже маєш акаунт?'}
+                        {mode === 'login' ? 'No account?' : 'Already have an account?'}
                     </button>
                     <div className="flex gap-2">
-                        <button onClick={onClose} className="underline">Закрити</button>
+                        <button onClick={onClose} className="underline">Close</button>
                         <button onClick={handleAuth} className="bg-black text-white px-4 py-1 rounded">
-                            {mode === 'login' ? 'Увійти' : 'Зареєструватися'}
+                            {mode === 'login' ? 'Log In' : 'Register'}
                         </button>
                     </div>
                 </div>

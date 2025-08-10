@@ -108,6 +108,7 @@ const AddAnimal: React.FC = () => {
             <select
                 name="sex"
                 onChange={handleChange}
+                required
                 className="border p-2 rounded"
                 value={formData.sex}
             >
@@ -137,6 +138,7 @@ const AddAnimal: React.FC = () => {
             <select
                 name="color"
                 onChange={handleChange}
+                required
                 className="border p-2 rounded"
                 value={formData.color}
             >
@@ -153,6 +155,7 @@ const AddAnimal: React.FC = () => {
             <select
                 name="temperament"
                 onChange={handleChange}
+                required
                 className="border p-2 rounded"
                 value={formData.temperament}
             >
@@ -217,6 +220,7 @@ const AddAnimal: React.FC = () => {
                 name="description"
                 placeholder="Description"
                 onChange={handleChange}
+                required
                 className="border p-2 rounded resize-y"
                 value={formData.description}
             />

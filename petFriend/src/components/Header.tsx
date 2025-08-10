@@ -98,7 +98,7 @@ const Header: React.FC = () => {
                         {showDropdown && token && (
                             <div className="absolute right-0 mt-2 bg-white border shadow-md rounded p-2 w-48 z-50">
                                 {userEmail && <p className="text-sm mb-2 truncate">{userEmail}</p>}
-                                <button onClick={handleLogout} className="text-red-500 text-sm">Вийти</button>
+                                <button onClick={handleLogout} className="text-red-500 text-sm">Log out</button>
                             </div>
                         )}
                     </div>

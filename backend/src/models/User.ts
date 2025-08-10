@@ -3,7 +3,7 @@ import mongoose, { Schema, model } from 'mongoose'
 interface IUser {
     email: string
     password: string
-    favorites: mongoose.Types.ObjectId[]  // масив ObjectId тварин
+    favorites: mongoose.Types.ObjectId[]
 }
 
 const userSchema = new Schema<IUser>({

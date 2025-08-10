@@ -9,17 +9,11 @@ const getColsPerRow = (width: number) => {
     return 1
 }
 
-
-
 const PetList: React.FC = () => {
     const [allAnimals, setAllAnimals] = useState<any[]>([])
     const [visibleCount, setVisibleCount] = useState(0)
     const [cols, setCols] = useState(getColsPerRow(window.innerWidth))
     const isLoggedIn = localStorage.getItem('token') !== null
-
-
-
-
 
     useEffect(() => {
         const fetchAnimals = async () => {
@@ -28,7 +22,7 @@ const PetList: React.FC = () => {
                 const data = await res.json()
                 setAllAnimals(data)
             } catch (err) {
-                console.error('помилка при отриманні тварин:', err)
+                console.error('error fetching animals:', err)
             }
         }
 
@@ -48,12 +42,7 @@ const PetList: React.FC = () => {
         return () => window.removeEventListener("resize", handleResize)
     }, [])
 
-
-
-
-
-    // Filter
-
+    // Filters
 
     const [filters, setFilters] = useState({
         type: '',
@@ -68,16 +57,13 @@ const PetList: React.FC = () => {
         animalFriendly: '',
     })
 
-
     const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const { name, value } = e.target
-        setFilters((prev) => ({ ...prev, [name]: value }))
+        setFilters(prev => ({ ...prev, [name]: value }))
     }
 
-
-
     const filteredAnimals = allAnimals
-        .filter((a) =>
+        .filter(a =>
             (!filters.age || a.age === filters.age) &&
             (!filters.type || a.type === filters.type) &&
             (!filters.sex || a.sex === filters.sex) &&
@@ -94,29 +80,16 @@ const PetList: React.FC = () => {
     const allShown = visibleCount >= filteredAnimals.length
 
     const handleShowMore = () => {
-        setVisibleCount((prev) => prev + cols * 2)
+        setVisibleCount(prev => prev + cols * 2)
     }
 
-
-
-
-
     // Favorites
-
-
-
-
-
 
     const [favorites, setFavorites] = useState<string[]>([])
     const [favoritesLoaded, setFavoritesLoaded] = useState(false)
     const [token, setToken] = useState<string | null>(localStorage.getItem('token'))
     const [showAuth, setShowAuth] = useState(false)
     const [pendingFavoriteId, setPendingFavoriteId] = useState<string | null>(null)
-
-
-
-
 
     useEffect(() => {
         const fetchFavorites = async () => {
@@ -129,25 +102,21 @@ const PetList: React.FC = () => {
                 const data = await res.json()
 
                 const ids = data.map((animal: any) => animal._id)
-
                 setFavorites(ids)
                 setFavoritesLoaded(true)
-
             } catch (err) {
-                console.error('не вдалось завантажити улюблених:', err)
+                console.error('failed to load favorites:', err)
             }
         }
 
         fetchFavorites()
     }, [token])
 
-
     const toggleFavorite = async (id: string) => {
-
         const isFav = favorites.includes(id)
 
-        setFavorites((prev) =>
-            isFav ? prev.filter((favId) => favId !== id) : [...prev, id]
+        setFavorites(prev =>
+            isFav ? prev.filter(favId => favId !== id) : [...prev, id]
         )
 
         if (token) {
@@ -160,33 +129,18 @@ const PetList: React.FC = () => {
                     }
                 })
 
-                if (!res.ok) {
-                    throw new Error('не вдалось оновити улюблене')
-                }
-                if (!token) {
-                    throw new Error('немає токена')
-                }
+                if (!res.ok) throw new Error('failed to update favorite')
+                if (!token) throw new Error('no token')
             } catch (err) {
-                console.error('фейл при оновленні улюбленого:', err)
-                setFavorites((prev) =>
-                    isFav ? [...prev, id] : prev.filter((favId) => favId !== id)
+                console.error('failed to update favorite:', err)
+                setFavorites(prev =>
+                    isFav ? [...prev, id] : prev.filter(favId => favId !== id)
                 )
             }
         } else {
             setShowAuth(true)
         }
     }
-
-
-
-
-
-
-
-
-
-
-
 
     return (
         <div className="relative">
@@ -248,7 +202,7 @@ const PetList: React.FC = () => {
                     <select name="toilet" onChange={handleFilterChange} className="border rounded-lg p-2">
                         <option value=''>toilet</option>
                         <option value="true">toilet trained</option>
-                        <option value="false">not toiled trained</option>
+                        <option value="false">not toilet trained</option>
                     </select>
 
                     <select name="vaccine" onChange={handleFilterChange} className="border rounded-lg p-2">
@@ -263,37 +217,38 @@ const PetList: React.FC = () => {
                         <option value="false">not sterilized</option>
                     </select>
 
-                    <select name="sterilization" onChange={handleFilterChange} className="border rounded-lg p-2">
+                    <select name="kidFriendly" onChange={handleFilterChange} className="border rounded-lg p-2">
                         <option value=''>kid-friendly</option>
                         <option value="true">yes</option>
                         <option value="false">no</option>
                     </select>
 
-                    <select name="sterilization" onChange={handleFilterChange} className="border rounded-lg p-2">
+                    <select name="animalFriendly" onChange={handleFilterChange} className="border rounded-lg p-2">
                         <option value=''>animal-friendly</option>
                         <option value="true">yes</option>
                         <option value="false">no</option>
                     </select>
-
                 </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 landscape:grid-cols-3 lg:grid-cols-4 gap-6 py-[7svh] px-[4svw]">
-                {visibleAnimals.map((animal) => (
+                {visibleAnimals.map(animal => (
                     <div key={animal._id} className="relative">
                         <Link
                             to={`/animals/${animal._id}`}
-                            className="h-80  z-0 bg-white rounded-2xl shadow p-4 flex flex-col items-center"
+                            className="h-80 z-0 bg-white rounded-2xl shadow p-4 flex flex-col items-center"
                         >
-                            <img src={animal.image ? `http://localhost:3000/uploads/${animal.image}` : 'https://via.placeholder.com/150'}
-                                className="w-full h-48 object-cover rounded-xl mb-4" />
+                            <img
+                                src={animal.image ? `http://localhost:3000/uploads/${animal.image}` : 'https://via.placeholder.com/150'}
+                                className="w-full h-48 object-cover rounded-xl mb-4"
+                            />
                             <h2 className="text-lg font-semibold">{animal.name}</h2>
                             <p className="text-sm text-gray-500">{animal.age}</p>
                             <p className="text-sm text-gray-400">{animal.type} • {animal.temperament}</p>
                         </Link>
 
                         <button
-                            onClick={(e) => {
+                            onClick={e => {
                                 e.preventDefault()
                                 if (isLoggedIn && favoritesLoaded) {
                                     toggleFavorite(animal._id)
@@ -304,18 +259,20 @@ const PetList: React.FC = () => {
                             }}
                             className="absolute top-2 right-2 z-20 text-2xl hover:scale-[1.1] transition"
                         >
-                            <span className={(((favorites.includes(animal._id) && favoritesLoaded) ?? !isLoggedIn) ? 
-                                'text-red-500' : 'text-black') + 
-                                ' bg-white rounded-xl p-1 inline-flex items-center justify-center text-[5svh] w-[7svh] h-[7svh]'}>
+                            <span className={((favorites.includes(animal._id) && favoritesLoaded) || !isLoggedIn
+                                ? 'text-red-500'
+                                : 'text-black') +
+                                ' bg-white rounded-xl p-1 inline-flex items-center justify-center text-[5svh] w-[7svh] h-[7svh]'}
+                            >
                                 ❤︎
                             </span>
                         </button>
 
                         <button
-                            onClick={(e) => {
+                            onClick={e => {
                                 e.preventDefault()
                                 const confirmDelete = window.confirm(
-                                    'ТИ ТОЧНО ХОЧЕШ ЛІВНУТИ ЦЮ МИЛУ МОРДУ ЯКА ДИВИТЬСЯ ТОБІ ПРЯМО В ТВОЮ ГНИЛУ ДУШУ, МРАЗЬ ТИ ТАКА. 😈'
+                                    'Are you sure you want to delete this cute face looking straight into your soul?'
                                 )
                                 if (!confirmDelete) return
 
@@ -331,33 +288,30 @@ const PetList: React.FC = () => {
                                         Authorization: `Bearer ${token}`,
                                     },
                                 })
-                                    .then((res) => {
-                                        if (!res.ok) throw new Error('Не вдалось видалити')
-                                        setAllAnimals((prev) => prev.filter((a) => a._id !== animal._id))
-                                        setFavorites((prev) => prev.filter((id) => id !== animal._id))
+                                    .then(res => {
+                                        if (!res.ok) throw new Error('Failed to delete')
+                                        setAllAnimals(prev => prev.filter(a => a._id !== animal._id))
+                                        setFavorites(prev => prev.filter(id => id !== animal._id))
                                     })
-                                    .catch((err) => {
-                                        alert('Помилка при видаленні: ' + err.message)
+                                    .catch(err => {
+                                        alert('Error deleting: ' + err.message)
                                     })
                             }}
                             className="absolute bg-white h-6.5 w-6.5 rounded top-47 right-70 z-20 text-3 transition cursor-pointer"
-                            title="Видалити"
+                            title="Delete"
                         >
                             🗑️
                         </button>
-
-
                     </div>
                 ))}
                 {isLoggedIn && (
                     <Link
                         to="/AddAnimal"
-                        className="h-80 bg-white rounded-2xl shadow p-4 flex flex-col justify-center items-center text-5xl font-bold text-gray-500 hover:scale-[1.01] transition">
+                        className="h-80 bg-white rounded-2xl shadow p-4 flex flex-col justify-center items-center text-5xl font-bold text-gray-500 hover:scale-[1.01] transition"
+                    >
                         +
                     </Link>
                 )}
-
-
             </div>
 
             {!allShown && (
@@ -366,7 +320,7 @@ const PetList: React.FC = () => {
                         onClick={handleShowMore}
                         className="px-6 py-2 bg-black text-white rounded-xl hover:bg-gray-800 transition"
                     >
-                        ще
+                        more
                     </button>
                 </div>
             )}
@@ -379,7 +333,7 @@ const PetList: React.FC = () => {
                         setShowAuth(false)
                         setPendingFavoriteId(null)
                     }}
-                    onSuccess={(newToken) => {
+                    onSuccess={newToken => {
                         setToken(newToken)
                         setShowAuth(false)
 

@@ -17,11 +17,9 @@ const Favorites: React.FC = () => {
         })
 
         const data = await res.json()
-        //const ids = data.map((animal: any) => animal._id)
-        //setFavorites(ids)
         setFavorites(data)
       } catch (err) {
-        console.error('не вдалось завантажити фаворити', err)
+        console.error('Failed to load favorites', err)
       }
     }
 
@@ -29,17 +27,8 @@ const Favorites: React.FC = () => {
   }, [])
 
   if (favorites.length === 0) {
-    return <div className="p-8 text-center text-xl">У тебе немає улюблених тварин :(</div>
+    return <div className="p-8 text-center text-xl">You have no favorite animals :(</div>
   }
-
-
-
-
-
-
-  // heart button
-
-
 
 
   const token = localStorage.getItem('token')
@@ -61,23 +50,20 @@ const Favorites: React.FC = () => {
       })
 
       if (!res.ok) {
-        throw new Error('не вдалось оновити улюблене')
+        throw new Error('Failed to update favorites')
       }
 
       if (!token) {
-        throw new Error('немає токена')
+        throw new Error('No token found')
       }
     } catch (err) {
-      console.error('фейл при оновленні улюбленого:', err)
-      // відкат, якщо фейл
+      console.error('Failed to update favorite:', err)
+      // rollback on fail
       setFavorites((prev) =>
         isFav ? [...prev, animal] : prev.filter(fav => fav._id !== animal._id)
       )
     }
   }
-
-
-
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
@@ -103,7 +89,7 @@ const Favorites: React.FC = () => {
               }}
               className="absolute top-2 right-2 z-20 text-2xl"
             >
-              <span className={(favorites.includes(animal._id) ? 'text-black' : 'text-red-500') + '  bg-white rounded-xl p-1 inline-flex items-center justify-center text-[5svh] w-[7svh] h-[7svh]'}>
+              <span className={(favorites.includes(animal._id) ? 'text-black' : 'text-red-500') + '  bg-white rounded-xl p-1 inline-flex items-center justify-center text-[5svh] w-[7svh] h-[7svh]'} >
                 ❤︎
               </span>
             </button>
