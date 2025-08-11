@@ -5,14 +5,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.connectDB = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/petfriend';
+const MONGO_URI = 'mongodb+srv://o66ns:GLl7FnyE@petfriend.p9bky34.mongodb.net/?retryWrites=true&w=majority&appName=petFriend';
 const connectDB = async () => {
+    if (!MONGO_URI) {
+        console.error('No MONGO_URI in env');
+        process.exit(1);
+    }
     try {
         await mongoose_1.default.connect(MONGO_URI);
-        console.log('MongoDB підключено');
+        console.log('MongoDB connected');
     }
     catch (err) {
-        console.error('Помилка підключення до MongoDB:', err);
+        console.error('Error connecting MongoDB:', err);
         process.exit(1);
     }
 };
