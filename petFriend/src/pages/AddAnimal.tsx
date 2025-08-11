@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { host } from '../config'
+
 
 const AddAnimal: React.FC = () => {
+
     const [formData, setFormData] = useState({
         name: '',
         type: '',
@@ -55,7 +58,7 @@ const AddAnimal: React.FC = () => {
         })
 
         try {
-            const res = await fetch('http://localhost:3000/animals', {
+            const res = await fetch(`${host}/animals`, {
                 method: 'POST',
                 body: form,
                 headers: {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
+import { host } from '../config'
 
 const Favorites: React.FC = () => {
   const [favorites, setFavorites] = useState<any[]>([])
@@ -10,7 +11,7 @@ const Favorites: React.FC = () => {
       if (!token) return
 
       try {
-        const res = await fetch('http://localhost:3000/api/me/favorites', {
+        const res = await fetch(`${host}/api/me/favorites`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -41,7 +42,7 @@ const Favorites: React.FC = () => {
     )
 
     try {
-      const res = await fetch(`http://localhost:3000/api/me/favorites/${animal._id}`, {
+      const res = await fetch(`${host}/api/me/favorites/${animal._id}`, {
         method: isFav ? 'DELETE' : 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -74,7 +75,7 @@ const Favorites: React.FC = () => {
           <div key={animal._id} className="bg-white relative rounded-2xl shadow p-4 flex flex-col items-center hover:scale-[1.02] transition">
             <Link to={`/animals/${animal._id}`}>
               <img
-                src={animal.image ? `http://localhost:3000/uploads/${animal.image}` : 'https://via.placeholder.com/150'}
+                src={animal.image ? `${host}/uploads/${animal.image}` : 'https://via.placeholder.com/150'}
                 alt={animal.name}
                 className="w-full h-40 object-cover rounded-xl mb-4"
               />

@@ -1,0 +1,22 @@
+services:
+  frontend:
+    build:
+      context: ./petfriend
+      dockerfile: Dockerfile
+    container_name: petfriend-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: petfriend-backend
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./backend/.env
+    volumes:
+    - ./backend/uploads:/app/uploads

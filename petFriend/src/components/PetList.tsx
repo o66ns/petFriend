@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import AuthModal from './AuthModal'
+import { host } from '../config'
 
 const getColsPerRow = (width: number) => {
     if (width >= 1024) return 4
@@ -18,7 +19,7 @@ const PetList: React.FC = () => {
     useEffect(() => {
         const fetchAnimals = async () => {
             try {
-                const res = await fetch('http://localhost:3000/animals')
+                const res = await fetch(`${host}/animals`)
                 const data = await res.json()
                 setAllAnimals(data)
             } catch (err) {
@@ -94,7 +95,7 @@ const PetList: React.FC = () => {
     useEffect(() => {
         const fetchFavorites = async () => {
             try {
-                const res = await fetch('http://localhost:3000/api/me/favorites', {
+                const res = await fetch(`${host}/api/me/favorites`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -121,7 +122,7 @@ const PetList: React.FC = () => {
 
         if (token) {
             try {
-                const res = await fetch(`http://localhost:3000/api/me/favorites/${id}`, {
+                const res = await fetch(`${host}/api/me/favorites/${id}`, {
                     method: isFav ? 'DELETE' : 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -239,7 +240,7 @@ const PetList: React.FC = () => {
                             className="h-80 z-0 bg-white rounded-2xl shadow p-4 flex flex-col items-center"
                         >
                             <img
-                                src={animal.image ? `http://localhost:3000/uploads/${animal.image}` : 'https://via.placeholder.com/150'}
+                                src={animal.image ? `${host}/uploads/${animal.image}` : 'https://via.placeholder.com/150'}
                                 className="w-full h-48 object-cover rounded-xl mb-4"
                             />
                             <h2 className="text-lg font-semibold">{animal.name}</h2>
@@ -282,7 +283,7 @@ const PetList: React.FC = () => {
                                     return
                                 }
 
-                                fetch(`http://localhost:3000/animals/${animal._id}`, {
+                                fetch(`${host}/animals/${animal._id}`, {
                                     method: 'DELETE',
                                     headers: {
                                         Authorization: `Bearer ${token}`,

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import { host } from '../config'
 
 interface Animal {
     _id: string
@@ -30,7 +31,7 @@ const PetPage: React.FC = () => {
         const fetchAnimal = async () => {
             try {
                 setLoading(true)
-                const res = await fetch(`http://localhost:3000/animals/${id}`)
+                const res = await fetch(`${host}/animals/${id}`)
                 if (!res.ok) throw new Error('Failed to fetch animal')
                 const data: Animal = await res.json()
                 setAnimal(data)
@@ -53,7 +54,7 @@ const PetPage: React.FC = () => {
             <Link to="/" className="text-black underline mb-6 inline-block">← back to list</Link>
 
             <img
-                src={animal.image.startsWith('http') ? animal.image : `http://localhost:3000/uploads/${animal.image}`}
+                src={animal.image.startsWith('http') ? animal.image : `${host}/uploads/${animal.image}`}
                 alt={animal.name}
                 className="w-full max-w-md object-cover rounded-2xl mb-6 mx-auto"
             />

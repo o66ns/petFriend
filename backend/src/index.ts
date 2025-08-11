@@ -15,7 +15,7 @@ dotenv.config()
 const app = express()
 
 app.use(cors({
-    origin: 'http://localhost:5173'
+    origin: ['http://localhost', 'http://192.168.0.100', 'http://localhost:5173']
 }))
 app.use(express.json())
 app.use('/auth', authRouter)

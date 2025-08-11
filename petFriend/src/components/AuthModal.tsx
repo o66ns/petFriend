@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { host } from '../config'
 
 interface Props {
     onClose: () => void
@@ -14,7 +15,7 @@ const AuthModal: React.FC<Props> = ({ onClose, onSuccess }) => {
     const handleAuth = async () => {
         try {
             const endpoint = mode === 'login' ? 'login' : 'register'
-            const res = await fetch(`http://localhost:3000/auth/${endpoint}`, {
+            const res = await fetch(`${host}/auth/${endpoint}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password }),
@@ -27,7 +28,7 @@ const AuthModal: React.FC<Props> = ({ onClose, onSuccess }) => {
                 localStorage.setItem('token', data.token)
                 onSuccess(data.token)
             } else {
-                const loginRes = await fetch('http://localhost:3000/auth/login', {
+                const loginRes = await fetch(`${host}/auth/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password }),
