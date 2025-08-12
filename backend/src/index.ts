@@ -15,7 +15,7 @@ dotenv.config()
 const app = express()
 
 app.use(cors({
-    origin: ['https://petfriend-c1jx.onrender.com/']
+    origin: ['https://petfriend-c1jx.onrender.com']
 }))
 app.use(express.json())
 app.use('/auth', authRouter)
