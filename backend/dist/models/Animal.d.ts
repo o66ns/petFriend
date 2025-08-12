@@ -1,48 +1,48 @@
 import mongoose from 'mongoose';
 export declare const Animal: mongoose.Model<{
-    type: "cat" | "dog" | "bird" | "rodent" | "fish" | "reptile" | "exotic animal" | "domestic animal";
     name: string;
-    description: string;
-    age: "<6 months" | "<1 year" | "1-3 years" | "3-6 years" | "6-10 years" | "10+ years";
-    sex: "male" | "female";
-    color: "black" | "white" | "grey" | "red" | "brown" | "bicolor" | "tricolor";
-    temperament: "calm and peaceful" | "active and playful" | "shy and cautious" | "aggressive and independent";
     toilet: boolean;
     vaccine: boolean;
     sterilization: boolean;
     kidFriendly: boolean;
     animalFriendly: boolean;
-    image: string;
+    type?: "cat" | "dog" | "bird" | "rodent" | "fish" | "reptile" | "exotic animal" | "domestic animal" | null;
+    description?: string | null;
+    age?: "<6 months" | "<1 year" | "1-3 years" | "3-6 years" | "6-10 years" | "10+ years" | null;
+    sex?: "male" | "female" | null;
+    color?: "black" | "white" | "grey" | "red" | "brown" | "bicolor" | "tricolor" | null;
+    temperament?: "calm and peaceful" | "active and playful" | "shy and cautious" | "aggressive and independent" | null;
+    image?: string | null;
 }, {}, {}, {}, mongoose.Document<unknown, {}, {
-    type: "cat" | "dog" | "bird" | "rodent" | "fish" | "reptile" | "exotic animal" | "domestic animal";
     name: string;
-    description: string;
-    age: "<6 months" | "<1 year" | "1-3 years" | "3-6 years" | "6-10 years" | "10+ years";
-    sex: "male" | "female";
-    color: "black" | "white" | "grey" | "red" | "brown" | "bicolor" | "tricolor";
-    temperament: "calm and peaceful" | "active and playful" | "shy and cautious" | "aggressive and independent";
     toilet: boolean;
     vaccine: boolean;
     sterilization: boolean;
     kidFriendly: boolean;
     animalFriendly: boolean;
-    image: string;
+    type?: "cat" | "dog" | "bird" | "rodent" | "fish" | "reptile" | "exotic animal" | "domestic animal" | null;
+    description?: string | null;
+    age?: "<6 months" | "<1 year" | "1-3 years" | "3-6 years" | "6-10 years" | "10+ years" | null;
+    sex?: "male" | "female" | null;
+    color?: "black" | "white" | "grey" | "red" | "brown" | "bicolor" | "tricolor" | null;
+    temperament?: "calm and peaceful" | "active and playful" | "shy and cautious" | "aggressive and independent" | null;
+    image?: string | null;
 }, {}, {
     timestamps: false;
 }> & {
-    type: "cat" | "dog" | "bird" | "rodent" | "fish" | "reptile" | "exotic animal" | "domestic animal";
     name: string;
-    description: string;
-    age: "<6 months" | "<1 year" | "1-3 years" | "3-6 years" | "6-10 years" | "10+ years";
-    sex: "male" | "female";
-    color: "black" | "white" | "grey" | "red" | "brown" | "bicolor" | "tricolor";
-    temperament: "calm and peaceful" | "active and playful" | "shy and cautious" | "aggressive and independent";
     toilet: boolean;
     vaccine: boolean;
     sterilization: boolean;
     kidFriendly: boolean;
     animalFriendly: boolean;
-    image: string;
+    type?: "cat" | "dog" | "bird" | "rodent" | "fish" | "reptile" | "exotic animal" | "domestic animal" | null;
+    description?: string | null;
+    age?: "<6 months" | "<1 year" | "1-3 years" | "3-6 years" | "6-10 years" | "10+ years" | null;
+    sex?: "male" | "female" | null;
+    color?: "black" | "white" | "grey" | "red" | "brown" | "bicolor" | "tricolor" | null;
+    temperament?: "calm and peaceful" | "active and playful" | "shy and cautious" | "aggressive and independent" | null;
+    image?: string | null;
 } & {
     _id: mongoose.Types.ObjectId;
 } & {
@@ -50,49 +50,49 @@ export declare const Animal: mongoose.Model<{
 }, mongoose.Schema<any, mongoose.Model<any, any, any, any, any, any>, {}, {}, {}, {}, {
     timestamps: false;
 }, {
-    type: "cat" | "dog" | "bird" | "rodent" | "fish" | "reptile" | "exotic animal" | "domestic animal";
     name: string;
-    description: string;
-    age: "<6 months" | "<1 year" | "1-3 years" | "3-6 years" | "6-10 years" | "10+ years";
-    sex: "male" | "female";
-    color: "black" | "white" | "grey" | "red" | "brown" | "bicolor" | "tricolor";
-    temperament: "calm and peaceful" | "active and playful" | "shy and cautious" | "aggressive and independent";
     toilet: boolean;
     vaccine: boolean;
     sterilization: boolean;
     kidFriendly: boolean;
     animalFriendly: boolean;
-    image: string;
+    type?: "cat" | "dog" | "bird" | "rodent" | "fish" | "reptile" | "exotic animal" | "domestic animal" | null;
+    description?: string | null;
+    age?: "<6 months" | "<1 year" | "1-3 years" | "3-6 years" | "6-10 years" | "10+ years" | null;
+    sex?: "male" | "female" | null;
+    color?: "black" | "white" | "grey" | "red" | "brown" | "bicolor" | "tricolor" | null;
+    temperament?: "calm and peaceful" | "active and playful" | "shy and cautious" | "aggressive and independent" | null;
+    image?: string | null;
 }, mongoose.Document<unknown, {}, mongoose.FlatRecord<{
-    type: "cat" | "dog" | "bird" | "rodent" | "fish" | "reptile" | "exotic animal" | "domestic animal";
     name: string;
-    description: string;
-    age: "<6 months" | "<1 year" | "1-3 years" | "3-6 years" | "6-10 years" | "10+ years";
-    sex: "male" | "female";
-    color: "black" | "white" | "grey" | "red" | "brown" | "bicolor" | "tricolor";
-    temperament: "calm and peaceful" | "active and playful" | "shy and cautious" | "aggressive and independent";
     toilet: boolean;
     vaccine: boolean;
     sterilization: boolean;
     kidFriendly: boolean;
     animalFriendly: boolean;
-    image: string;
+    type?: "cat" | "dog" | "bird" | "rodent" | "fish" | "reptile" | "exotic animal" | "domestic animal" | null;
+    description?: string | null;
+    age?: "<6 months" | "<1 year" | "1-3 years" | "3-6 years" | "6-10 years" | "10+ years" | null;
+    sex?: "male" | "female" | null;
+    color?: "black" | "white" | "grey" | "red" | "brown" | "bicolor" | "tricolor" | null;
+    temperament?: "calm and peaceful" | "active and playful" | "shy and cautious" | "aggressive and independent" | null;
+    image?: string | null;
 }>, {}, mongoose.ResolveSchemaOptions<{
     timestamps: false;
 }>> & mongoose.FlatRecord<{
-    type: "cat" | "dog" | "bird" | "rodent" | "fish" | "reptile" | "exotic animal" | "domestic animal";
     name: string;
-    description: string;
-    age: "<6 months" | "<1 year" | "1-3 years" | "3-6 years" | "6-10 years" | "10+ years";
-    sex: "male" | "female";
-    color: "black" | "white" | "grey" | "red" | "brown" | "bicolor" | "tricolor";
-    temperament: "calm and peaceful" | "active and playful" | "shy and cautious" | "aggressive and independent";
     toilet: boolean;
     vaccine: boolean;
     sterilization: boolean;
     kidFriendly: boolean;
     animalFriendly: boolean;
-    image: string;
+    type?: "cat" | "dog" | "bird" | "rodent" | "fish" | "reptile" | "exotic animal" | "domestic animal" | null;
+    description?: string | null;
+    age?: "<6 months" | "<1 year" | "1-3 years" | "3-6 years" | "6-10 years" | "10+ years" | null;
+    sex?: "male" | "female" | null;
+    color?: "black" | "white" | "grey" | "red" | "brown" | "bicolor" | "tricolor" | null;
+    temperament?: "calm and peaceful" | "active and playful" | "shy and cautious" | "aggressive and independent" | null;
+    image?: string | null;
 }> & {
     _id: mongoose.Types.ObjectId;
 } & {
