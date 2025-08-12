@@ -1,9 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { host } from '../config'
 
 
 const AddAnimal: React.FC = () => {
+
+    useEffect(() => {
+        const script = document.createElement('script')
+        script.src = 'https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js'
+        script.async = true
+        document.body.appendChild(script)
+        return () => {
+            document.body.removeChild(script)
+        }
+    }, [])
 
     const [formData, setFormData] = useState({
         name: '',
@@ -18,44 +28,44 @@ const AddAnimal: React.FC = () => {
         description: '',
         kidFriendly: false,
         animalFriendly: false,
-        image: null as File | null,
+        image: '',
     })
     const navigate = useNavigate()
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value, type } = e.target
-    const isCheckbox = type === 'checkbox'
+        const { name, value, type } = e.target
+        const isCheckbox = type === 'checkbox'
 
-    setFormData((prev) => ({
-        ...prev,
-        [name]: isCheckbox ? (e.target as HTMLInputElement).checked : value,
-    }))
-}
-
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0] || null
         setFormData((prev) => ({
             ...prev,
-            image: file,
+            [name]: isCheckbox ? (e.target as HTMLInputElement).checked : value,
         }))
     }
+
+    // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const file = e.target.files?.[0] || null
+    //     setFormData((prev) => ({
+    //         ...prev,
+    //         image: file,
+    //     }))
+    // }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
 
         const form = new FormData()
 
-        Object.entries(formData).forEach(([key, value]) => {
-            if (value === null) return
+        // Object.entries(formData).forEach(([key, value]) => {
+        //     if (value === null) return
 
-            if (key === 'image' && value instanceof File) {
-                form.append('image', value)
-            } else if (typeof value === 'boolean') {
-                form.append(key, String(value))
-            } else {
-                form.append(key, value as string)
-            }
-        })
+        //     if (key === 'image' && value instanceof File) {
+        //         form.append('image', value)
+        //     } else if (typeof value === 'boolean') {
+        //         form.append(key, String(value))
+        //     } else {
+        //         form.append(key, value as string)
+        //     }
+        // })
 
         try {
             const res = await fetch(`${host}/animals`, {
@@ -229,11 +239,16 @@ const AddAnimal: React.FC = () => {
             />
 
             <input
-                type="file"
-                name="image"
-                accept="image/*"
-                onChange={handleFileChange}
-                required
+                type="hidden"
+                role="uploadcare-uploader"
+                data-public-key="13147021bead328b5fad"
+                data-images-only
+                onChange={(e: any) => {
+                    const fileUrl = e.target.value
+                    if (fileUrl) {
+                        setFormData((prev) => ({ ...prev, image: fileUrl }))
+                    }
+                }}
             />
 
             <button type="submit" className="bg-black text-white py-2 rounded">
