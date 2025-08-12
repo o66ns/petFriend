@@ -3,12 +3,17 @@ import { Animal } from '../models/Animal'
 import { authMiddleware } from '../middleware/authMiddleware'
 import multer from 'multer'
 import path from 'path'
+import fs from 'fs'
 
 const router = Router()
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, path.resolve('uploads'))
+        const uploadPath = path.resolve('uploads')
+        if (!fs.existsSync(uploadPath)) {
+            fs.mkdirSync(uploadPath, { recursive: true })
+        }
+        cb(null, uploadPath)
     },
     filename: (req, file, cb) => {
         const ext = file.originalname.split('.').pop()
