@@ -14,7 +14,6 @@ const animalSchema = new mongoose.Schema({
             'exotic animal',
             'domestic animal',
         ],
-        required: true
     },
     age: {
         type: String,
@@ -26,9 +25,8 @@ const animalSchema = new mongoose.Schema({
             '6-10 years',
             '10+ years',
         ],
-        required: true,
     },
-    sex: { type: String, enum: ['male', 'female',], required: true },
+    sex: { type: String, enum: ['male', 'female',]},
     color: {
         type: String,
         enum: [
@@ -40,7 +38,6 @@ const animalSchema = new mongoose.Schema({
             'bicolor',
             'tricolor',
         ],
-        required: true,
     },
     temperament: {
         type: String,
@@ -50,15 +47,14 @@ const animalSchema = new mongoose.Schema({
             'shy and cautious',
             'aggressive and independent',
         ],
-        required: true,
     },
-    toilet: { type: Boolean, required: true, default: false },
-    vaccine: {type: Boolean, required: true, default: false },
-    sterilization: {type: Boolean, required: true, default: false },
-    kidFriendly: {type: Boolean, required: true, default: false },
-    animalFriendly: {type: Boolean, required: true, default: false },
-    description: {type: String, required: true},
-    image: {type: String, required: true},
+    toilet: { type: Boolean, default: false },
+    vaccine: {type: Boolean, default: false },
+    sterilization: {type: Boolean, default: false },
+    kidFriendly: {type: Boolean, default: false },
+    animalFriendly: {type: Boolean, default: false },
+    description: {type: String},
+    image: {type: String},
 }, { timestamps: false })
 
 export const Animal = mongoose.model('Animal', animalSchema)

@@ -35,7 +35,7 @@ router.post('/', authMiddleware, async (req: AuthRequest, res: Response) => {
             toilet: req.body.toilet === 'true',
             vaccine: req.body.vaccine === 'true',
             sterilization: req.body.sterilization === 'true',
-            //image: req.file?.filename,
+            image: req.body.image,
             shelterId: req.userId,
         }
 
