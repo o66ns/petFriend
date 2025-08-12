@@ -53,8 +53,6 @@ const AddAnimal: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
 
-        const form = new FormData()
-
         // Object.entries(formData).forEach(([key, value]) => {
         //     if (value === null) return
 
@@ -70,10 +68,12 @@ const AddAnimal: React.FC = () => {
         try {
             const res = await fetch(`${host}/animals`, {
                 method: 'POST',
-                body: form,
+                //body: form,
                 headers: {
+                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
+                body: JSON.stringify(formData),
             })
 
             if (res.ok) {
