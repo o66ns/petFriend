@@ -52,12 +52,12 @@ const AddAnimal: React.FC = () => {
                 })
             }
 
-            
+
         }
 
         return () => {
-                document.body.removeChild(script)
-            }
+            document.body.removeChild(script)
+        }
     }, [])
 
 
@@ -73,7 +73,10 @@ const AddAnimal: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        console.log('Submitting formData:', formData)   
+        if (!formData.image) {
+            alert('Upload image first')
+            return
+        }
 
         try {
             const res = await fetch(`${host}/animals`, {
