@@ -32,10 +32,11 @@ const AddAnimal: React.FC = () => {
         script.async = true
         document.body.appendChild(script)
 
-        const interval = setInterval(() => {
-            if (window.uploadcare && typeof window.uploadcare.Widget === 'function') {
-                clearInterval(interval)
-                const widget = window.uploadcare.Widget('#uploadcare-uploader')
+        script.onload = () => {
+            if (!window.uploadcare) return
+            const widgetEl = document.querySelector('#uploadcare-uploader') as HTMLInputElement
+            if (widgetEl) {
+                const widget = window.uploadcare.Widget(widgetEl)
                 widget.onChange((file: any) => {
                     if (file) {
                         file.done((fileInfo: any) => {
@@ -44,10 +45,9 @@ const AddAnimal: React.FC = () => {
                     }
                 })
             }
-        }, 100)
+        }
 
         return () => {
-            clearInterval(interval)
             document.body.removeChild(script)
         }
     }, [])
@@ -152,18 +152,13 @@ const AddAnimal: React.FC = () => {
 
             <textarea name="description" placeholder="Description" onChange={handleChange} required className="border p-2 rounded resize-y" value={formData.description} />
 
-            <div id="uploadcare-uploader-widget" className="my-2">
-                <input
-                    type="hidden"
-                    role="uploadcare-uploader"
-                    data-public-key="13147021bead328b5fad"
-                    data-images-only
-                    onChange={(e: any) => {
-                        const file = window.uploadcare?.fileFrom('object', e.target.value)
-                        file?.done((fileInfo: any) => setFormData(prev => ({ ...prev, image: fileInfo.cdnUrl })))
-                    }}
-                />
-            </div>
+            <input
+                type="hidden"
+                id="uploadcare-uploader"
+                role="uploadcare-uploader"
+                data-public-key="13147021bead328b5fad"
+                data-images-only
+            />
 
             <button type="submit" className="bg-black text-white py-2 rounded mt-2">Add Animal</button>
         </form>
