@@ -41,13 +41,12 @@ const AddAnimal: React.FC = () => {
         document.body.appendChild(script)
 
         script.onload = () => {
-            const widget = window.uploadcare?.widget('[role=uploadcare-uploader]')
+            const widget = window.uploadcare?.widget('#uploadcare-uploader')
             if (widget) {
                 widget.on('change', (file: any) => {
                     if (file) {
                         file.done((fileInfo: any) => {
                             setFormData(prev => ({ ...prev, image: fileInfo.cdnUrl }))
-                            console.log('Uploaded image URL:', fileInfo.cdnUrl)
                         })
                     }
                 })
@@ -249,16 +248,11 @@ const AddAnimal: React.FC = () => {
             />
 
             <input
-                type="hidden"
+                type="text"
                 role="uploadcare-uploader"
+                id="uploadcare-uploader"
                 data-public-key="13147021bead328b5fad"
                 data-images-only
-                onChange={(e: any) => {
-                    const fileUrl = e.target.value
-                    if (fileUrl) {
-                        setFormData((prev) => ({ ...prev, image: fileUrl }))
-                    }
-                }}
             />
 
             <button type="submit" className="bg-black text-white py-2 rounded">
