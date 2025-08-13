@@ -53,10 +53,12 @@ const AddAnimal: React.FC = () => {
                 })
             }
 
-            return () => {
+            
+        }
+
+        return () => {
                 document.body.removeChild(script)
             }
-        }
     }, [])
 
 
