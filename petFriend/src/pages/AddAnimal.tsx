@@ -79,8 +79,8 @@ const AddAnimal: React.FC = () => {
             })
 
             if (res.ok) {
-                navigate('/')
                 alert('Animal added')
+                navigate('/')
             } else {
                 const errorData = await res.json().catch(() => null)
                 alert('Error: ' + (errorData?.error || res.statusText))
