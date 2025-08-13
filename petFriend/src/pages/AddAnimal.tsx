@@ -41,18 +41,16 @@ const AddAnimal: React.FC = () => {
         document.body.appendChild(script)
 
         script.onload = () => {
-            const widget = window.uploadcare?.widget('#uploadcare-uploader')
-            if (widget) {
+            if (window.uploadcare && typeof window.uploadcare.widget === 'function') {
+                const widget = window.uploadcare.widget('#uploadcare-uploader')
                 widget.on('change', (file: any) => {
-                    if (file) {
-                        file.done((fileInfo: any) => {
-                            setFormData(prev => ({ ...prev, image: fileInfo.cdnUrl }))
-                        })
-                    }
+                    file.done((fileInfo: any) => {
+                        setFormData(prev => ({ ...prev, image: fileInfo.cdnUrl}))
+                    })
                 })
+            } else {
+                console.error('uploadcare.widget не готовий')
             }
-
-
         }
 
         return () => {
