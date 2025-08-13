@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { host } from '../config'
 
@@ -26,6 +26,32 @@ const AddAnimal: React.FC = () => {
     })
     const navigate = useNavigate()
 
+    useEffect(() => {
+        const script = document.createElement('script')
+        script.src = 'https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js'
+        script.async = true
+        document.body.appendChild(script)
+
+        const interval = setInterval(() => {
+            if (window.uploadcare && typeof window.uploadcare.Widget === 'function') {
+                clearInterval(interval)
+                const widget = window.uploadcare.Widget('#uploadcare-uploader')
+                widget.onChange((file: any) => {
+                    if (file) {
+                        file.done((fileInfo: any) => {
+                            setFormData(prev => ({ ...prev, image: fileInfo.cdnUrl }))
+                        })
+                    }
+                })
+            }
+        }, 100)
+
+        return () => {
+            clearInterval(interval)
+            document.body.removeChild(script)
+        }
+    }, [])
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value, type } = e.target
         const isCheckbox = type === 'checkbox'
@@ -33,12 +59,6 @@ const AddAnimal: React.FC = () => {
             ...prev,
             [name]: isCheckbox ? (e.target as HTMLInputElement).checked : value,
         }))
-    }
-
-    const handleUploadcareChange = (info: any) => {
-        if (!info) return
-        const file = info.file || info
-        file.done((fileInfo: any) => setFormData(prev => ({ ...prev, image: fileInfo.cdnUrl })))
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -132,16 +152,20 @@ const AddAnimal: React.FC = () => {
 
             <textarea name="description" placeholder="Description" onChange={handleChange} required className="border p-2 rounded resize-y" value={formData.description} />
 
-            <input
-                type="hidden"
-                role="uploadcare-uploader"
-                id="uploadcare-uploader"
-                data-public-key="13147021bead328b5fad"
-                data-images-only
-                onChange={(e: any) => handleUploadcareChange(window.uploadcare?.fileFrom('object', e.target.value))}
-            />
+            <div id="uploadcare-uploader-widget" className="my-2">
+                <input
+                    type="hidden"
+                    role="uploadcare-uploader"
+                    data-public-key="13147021bead328b5fad"
+                    data-images-only
+                    onChange={(e: any) => {
+                        const file = window.uploadcare?.fileFrom('object', e.target.value)
+                        file?.done((fileInfo: any) => setFormData(prev => ({ ...prev, image: fileInfo.cdnUrl })))
+                    }}
+                />
+            </div>
 
-            <button type="submit" className="bg-black text-white py-2 rounded">Add Animal</button>
+            <button type="submit" className="bg-black text-white py-2 rounded mt-2">Add Animal</button>
         </form>
     )
 }
