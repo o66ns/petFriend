@@ -59,7 +59,6 @@ const Favorites: React.FC = () => {
       }
     } catch (err) {
       console.error('Failed to update favorite:', err)
-      // rollback on fail
       setFavorites((prev) =>
         isFav ? [...prev, animal] : prev.filter(fav => fav._id !== animal._id)
       )
@@ -75,7 +74,7 @@ const Favorites: React.FC = () => {
           <div key={animal._id} className="bg-white relative rounded-2xl shadow p-4 flex flex-col items-center hover:scale-[1.02] transition">
             <Link to={`/animals/${animal._id}`}>
               <img
-                src={animal.image ? `${host}/uploads/${animal.image}` : 'https://via.placeholder.com/150'}
+                src={animal.image ? animal.image : 'https://via.placeholder.com/150'}
                 alt={animal.name}
                 className="w-full h-40 object-cover rounded-xl mb-4"
               />
