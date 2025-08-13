@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { host } from '../config'
 
@@ -26,32 +26,6 @@ const AddAnimal: React.FC = () => {
     })
     const navigate = useNavigate()
 
-    useEffect(() => {
-        const script = document.createElement('script')
-        script.src = 'https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js'
-        script.async = true
-        document.body.appendChild(script)
-
-        const interval = setInterval(() => {
-            if (window.uploadcare && typeof window.uploadcare.widget === 'function') {
-                clearInterval(interval)
-                const widget = window.uploadcare.widget('#uploadcare-uploader')
-                widget.on('change', (file: any) => {
-                    if (file) {
-                        file.done((fileInfo: any) => {
-                            setFormData(prev => ({ ...prev, image: fileInfo.cdnUrl }))
-                        })
-                    }
-                })
-            }
-        }, 100)
-
-        return () => {
-            clearInterval(interval)
-            document.body.removeChild(script)
-        }
-    }, [])
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value, type } = e.target
         const isCheckbox = type === 'checkbox'
@@ -59,6 +33,12 @@ const AddAnimal: React.FC = () => {
             ...prev,
             [name]: isCheckbox ? (e.target as HTMLInputElement).checked : value,
         }))
+    }
+
+    const handleUploadcareChange = (info: any) => {
+        if (!info) return
+        const file = info.file || info
+        file.done((fileInfo: any) => setFormData(prev => ({ ...prev, image: fileInfo.cdnUrl })))
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -95,14 +75,7 @@ const AddAnimal: React.FC = () => {
             onSubmit={handleSubmit}
             className="p-[4svh] m-[8svh] max-w-xl mx-auto flex flex-col gap-4 bg-white rounded-xl shadow"
         >
-            <input
-                name="name"
-                placeholder="Name"
-                onChange={handleChange}
-                required
-                className="border p-2 rounded"
-                value={formData.name}
-            />
+            <input name="name" placeholder="Name" onChange={handleChange} required className="border p-2 rounded" value={formData.name} />
 
             <select name="age" onChange={handleChange} required className="border p-2 rounded" value={formData.age}>
                 <option value="">Age</option>
@@ -132,13 +105,7 @@ const AddAnimal: React.FC = () => {
                 <option value="domestic animal">Domestic animal</option>
             </select>
 
-            <select
-                name="color"
-                onChange={handleChange}
-                required
-                className="border p-2 rounded"
-                value={formData.color}
-            >
+            <select name="color" onChange={handleChange} required className="border p-2 rounded" value={formData.color}>
                 <option value="">Color</option>
                 <option value="black">Black</option>
                 <option value="white">White</option>
@@ -149,13 +116,7 @@ const AddAnimal: React.FC = () => {
                 <option value="tricolor">Tricolor</option>
             </select>
 
-            <select
-                name="temperament"
-                onChange={handleChange}
-                required
-                className="border p-2 rounded"
-                value={formData.temperament}
-            >
+            <select name="temperament" onChange={handleChange} required className="border p-2 rounded" value={formData.temperament}>
                 <option value="">Temperament</option>
                 <option value="calm and peaceful">Calm and peaceful</option>
                 <option value="active and playful">Active and playful</option>
@@ -163,56 +124,24 @@ const AddAnimal: React.FC = () => {
                 <option value="aggressive and independent">Aggressive and independent</option>
             </select>
 
-            <label className="flex items-center gap-2">
-                <input type="checkbox" name="toilet" onChange={handleChange} checked={formData.toilet} />
-                Toilet trained
-            </label>
+            <label className="flex items-center gap-2"><input type="checkbox" name="toilet" onChange={handleChange} checked={formData.toilet} />Toilet trained</label>
+            <label className="flex items-center gap-2"><input type="checkbox" name="vaccine" onChange={handleChange} checked={formData.vaccine} />Vaccinated</label>
+            <label className="flex items-center gap-2"><input type="checkbox" name="sterilization" onChange={handleChange} checked={formData.sterilization} />Sterilized</label>
+            <label className="flex items-center gap-2"><input type="checkbox" name="kidFriendly" onChange={handleChange} checked={formData.kidFriendly} />Kid-friendly</label>
+            <label className="flex items-center gap-2"><input type="checkbox" name="animalFriendly" onChange={handleChange} checked={formData.animalFriendly} />Animal-friendly</label>
 
-            <label className="flex items-center gap-2">
-                <input type="checkbox" name="vaccine" onChange={handleChange} checked={formData.vaccine} />
-                Vaccinated
-            </label>
-
-            <label className="flex items-center gap-2">
-                <input type="checkbox" name="sterilization" onChange={handleChange} checked={formData.sterilization} />
-                Sterilized
-            </label>
-
-            <label className="flex items-center gap-2">
-                <input type="checkbox" name="kidFriendly" onChange={handleChange} checked={formData.kidFriendly} />
-                Kid-friendly
-            </label>
-
-            <label className="flex items-center gap-2">
-                <input
-                    type="checkbox"
-                    name="animalFriendly"
-                    onChange={handleChange}
-                    checked={formData.animalFriendly}
-                />
-                Animal-friendly
-            </label>
-
-            <textarea
-                name="description"
-                placeholder="Description"
-                onChange={handleChange}
-                required
-                className="border p-2 rounded resize-y"
-                value={formData.description}
-            />
+            <textarea name="description" placeholder="Description" onChange={handleChange} required className="border p-2 rounded resize-y" value={formData.description} />
 
             <input
                 type="hidden"
-                id="uploadcare-uploader"
                 role="uploadcare-uploader"
+                id="uploadcare-uploader"
                 data-public-key="13147021bead328b5fad"
                 data-images-only
+                onChange={(e: any) => handleUploadcareChange(window.uploadcare?.fileFrom('object', e.target.value))}
             />
 
-            <button type="submit" className="bg-black text-white py-2 rounded">
-                Add Animal
-            </button>
+            <button type="submit" className="bg-black text-white py-2 rounded">Add Animal</button>
         </form>
     )
 }
