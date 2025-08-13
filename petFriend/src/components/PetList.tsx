@@ -240,7 +240,7 @@ const PetList: React.FC = () => {
                             className="h-80 z-0 bg-white rounded-2xl shadow p-4 flex flex-col items-center"
                         >
                             <img
-                                src={animal.image ? `${host}/uploads/${animal.image}` : 'https://via.placeholder.com/150'}
+                                src={animal.image ? animal.image : 'https://via.placeholder.com/150'}
                                 className="w-full h-48 object-cover rounded-xl mb-4"
                             />
                             <h2 className="text-lg font-semibold">{animal.name}</h2>

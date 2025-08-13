@@ -2,16 +2,39 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { host } from '../config'
 
+declare global {
+    interface Window {
+        uploadcare: any
+    }
+}
+
 
 const AddAnimal: React.FC = () => {
 
+
+
+
     useEffect(() => {
+
+
         const script = document.createElement('script')
         script.src = 'https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js'
         script.async = true
         document.body.appendChild(script)
-        return () => {
-            document.body.removeChild(script)
+
+        script.onload = () => {
+            const widget = window.uploadcare?.widget('[role=uploadcare-uploader]')
+            widget?.on('change', (file: any) => {
+                if (file) {
+                    file.done((fileInfo: any) => {
+                        setFormData(prev => ({ ...prev, image: fileInfo.cdnUrl }))
+                    })
+                }
+            })
+
+            return () => {
+                document.body.removeChild(script)
+            }
         }
     }, [])
 
