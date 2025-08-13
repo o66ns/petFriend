@@ -4,7 +4,7 @@ import { host } from '../config'
 
 declare global {
     interface Window {
-        uploadcare: any
+        uploadcare?: any
     }
 }
 
@@ -32,24 +32,22 @@ const AddAnimal: React.FC = () => {
         script.async = true
         document.body.appendChild(script)
 
-        script.onload = () => {
-            if (window.uploadcare && typeof window.uploadcare.ready === 'function') {
-                window.uploadcare.ready(() => {
-                    const widget = window.uploadcare.widget('#uploadcare-uploader')
-                    widget.on('change', (file: any) => {
-                        if (file) {
-                            file.done((fileInfo: any) => {
-                                setFormData(prev => ({ ...prev, image: fileInfo.cdnUrl }))
-                            })
-                        }
-                    })
+        const interval = setInterval(() => {
+            if (window.uploadcare && typeof window.uploadcare.widget === 'function') {
+                clearInterval(interval)
+                const widget = window.uploadcare.widget('#uploadcare-uploader')
+                widget.on('change', (file: any) => {
+                    if (file) {
+                        file.done((fileInfo: any) => {
+                            setFormData(prev => ({ ...prev, image: fileInfo.cdnUrl }))
+                        })
+                    }
                 })
-            } else {
-                console.error('uploadcare не готовий')
             }
-        }
+        }, 100)
 
         return () => {
+            clearInterval(interval)
             document.body.removeChild(script)
         }
     }, [])
