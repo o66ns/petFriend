@@ -8,12 +8,7 @@ declare global {
     }
 }
 
-
 const AddAnimal: React.FC = () => {
-
-
-
-
     const [formData, setFormData] = useState({
         name: '',
         type: '',
@@ -31,25 +26,26 @@ const AddAnimal: React.FC = () => {
     })
     const navigate = useNavigate()
 
-
     useEffect(() => {
-
-
         const script = document.createElement('script')
         script.src = 'https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js'
         script.async = true
         document.body.appendChild(script)
 
         script.onload = () => {
-            if (window.uploadcare && typeof window.uploadcare.widget === 'function') {
-                const widget = window.uploadcare.widget('#uploadcare-uploader')
-                widget.on('change', (file: any) => {
-                    file.done((fileInfo: any) => {
-                        setFormData(prev => ({ ...prev, image: fileInfo.cdnUrl}))
+            if (window.uploadcare && typeof window.uploadcare.ready === 'function') {
+                window.uploadcare.ready(() => {
+                    const widget = window.uploadcare.widget('#uploadcare-uploader')
+                    widget.on('change', (file: any) => {
+                        if (file) {
+                            file.done((fileInfo: any) => {
+                                setFormData(prev => ({ ...prev, image: fileInfo.cdnUrl }))
+                            })
+                        }
                     })
                 })
             } else {
-                console.error('uploadcare.widget не готовий')
+                console.error('uploadcare не готовий')
             }
         }
 
@@ -58,12 +54,10 @@ const AddAnimal: React.FC = () => {
         }
     }, [])
 
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value, type } = e.target
         const isCheckbox = type === 'checkbox'
-
-        setFormData((prev) => ({
+        setFormData(prev => ({
             ...prev,
             [name]: isCheckbox ? (e.target as HTMLInputElement).checked : value,
         }))
@@ -112,13 +106,7 @@ const AddAnimal: React.FC = () => {
                 value={formData.name}
             />
 
-            <select
-                name="age"
-                onChange={handleChange}
-                required
-                className="border p-2 rounded"
-                value={formData.age}
-            >
+            <select name="age" onChange={handleChange} required className="border p-2 rounded" value={formData.age}>
                 <option value="">Age</option>
                 <option value="<6 months">&lt;6 months</option>
                 <option value="<1 year">&lt;1 year</option>
@@ -128,25 +116,13 @@ const AddAnimal: React.FC = () => {
                 <option value="10+ years">10+ years</option>
             </select>
 
-            <select
-                name="sex"
-                onChange={handleChange}
-                required
-                className="border p-2 rounded"
-                value={formData.sex}
-            >
+            <select name="sex" onChange={handleChange} required className="border p-2 rounded" value={formData.sex}>
                 <option value="">Sex</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
             </select>
 
-            <select
-                name="type"
-                onChange={handleChange}
-                required
-                className="border p-2 rounded"
-                value={formData.type}
-            >
+            <select name="type" onChange={handleChange} required className="border p-2 rounded" value={formData.type}>
                 <option value="">Type</option>
                 <option value="cat">Cat</option>
                 <option value="dog">Dog</option>
@@ -190,42 +166,22 @@ const AddAnimal: React.FC = () => {
             </select>
 
             <label className="flex items-center gap-2">
-                <input
-                    type="checkbox"
-                    name="toilet"
-                    onChange={handleChange}
-                    checked={formData.toilet}
-                />
+                <input type="checkbox" name="toilet" onChange={handleChange} checked={formData.toilet} />
                 Toilet trained
             </label>
 
             <label className="flex items-center gap-2">
-                <input
-                    type="checkbox"
-                    name="vaccine"
-                    onChange={handleChange}
-                    checked={formData.vaccine}
-                />
+                <input type="checkbox" name="vaccine" onChange={handleChange} checked={formData.vaccine} />
                 Vaccinated
             </label>
 
             <label className="flex items-center gap-2">
-                <input
-                    type="checkbox"
-                    name="sterilization"
-                    onChange={handleChange}
-                    checked={formData.sterilization}
-                />
+                <input type="checkbox" name="sterilization" onChange={handleChange} checked={formData.sterilization} />
                 Sterilized
             </label>
 
             <label className="flex items-center gap-2">
-                <input
-                    type="checkbox"
-                    name="kidFriendly"
-                    onChange={handleChange}
-                    checked={formData.kidFriendly}
-                />
+                <input type="checkbox" name="kidFriendly" onChange={handleChange} checked={formData.kidFriendly} />
                 Kid-friendly
             </label>
 
@@ -250,8 +206,8 @@ const AddAnimal: React.FC = () => {
 
             <input
                 type="hidden"
-                role="uploadcare-uploader"
                 id="uploadcare-uploader"
+                role="uploadcare-uploader"
                 data-public-key="13147021bead328b5fad"
                 data-images-only
             />
