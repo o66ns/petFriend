@@ -248,7 +248,7 @@ const AddAnimal: React.FC = () => {
             />
 
             <input
-                type="text"
+                type="hidden"
                 role="uploadcare-uploader"
                 id="uploadcare-uploader"
                 data-public-key="13147021bead328b5fad"
