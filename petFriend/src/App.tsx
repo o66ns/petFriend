@@ -13,7 +13,7 @@ import AddAnimal from "./pages/AddAnimal"
 function App() {
   return (
 
-    <>
+    <div className='flex flex-col justify-between min-h-full'>
       <Header />
 
       <Routes>
@@ -28,7 +28,7 @@ function App() {
 
       <Footer />
 
-    </>
+    </div>
   )
 }
 

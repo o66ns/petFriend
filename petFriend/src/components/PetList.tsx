@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
-import AuthModal from './AuthModal'
 import { host } from '../config'
 
 const getColsPerRow = (width: number) => {
@@ -88,58 +87,42 @@ const PetList: React.FC = () => {
 
     const [favorites, setFavorites] = useState<string[]>([])
     const [favoritesLoaded, setFavoritesLoaded] = useState(false)
-    const [token, setToken] = useState<string | null>(localStorage.getItem('token'))
-    const [showAuth, setShowAuth] = useState(false)
     const [pendingFavoriteId, setPendingFavoriteId] = useState<string | null>(null)
+    const [token, setToken] = useState<string | null>(localStorage.getItem('token'))
 
-    useEffect(() => {
-        const fetchFavorites = async () => {
-            try {
-                const res = await fetch(`${host}/api/me/favorites`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                })
-                const data = await res.json()
+        useEffect(() => {
+            const fetchFavorites = async () => {
+                try {
+                    const res = await fetch(`${host}/api/me/favorites`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    })
+                    const data = await res.json()
 
-                const ids = data.map((animal: any) => animal._id)
-                setFavorites(ids)
-                setFavoritesLoaded(true)
-            } catch (err) {
-                console.error('failed to load favorites:', err)
+                    const ids = data.map((animal: any) => animal._id)
+                    setFavorites(ids)
+                    setFavoritesLoaded(true)
+                } catch (err) {
+                    console.error('failed to load favorites:', err)
+                }
             }
-        }
 
-        fetchFavorites()
-    }, [token])
+            fetchFavorites()
+        }, [token])
 
     const toggleFavorite = async (id: string) => {
         const isFav = favorites.includes(id)
 
-        setFavorites(prev =>
-            isFav ? prev.filter(favId => favId !== id) : [...prev, id]
-        )
+        
 
         if (token) {
-            try {
-                const res = await fetch(`${host}/api/me/favorites/${id}`, {
-                    method: isFav ? 'DELETE' : 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`
-                    }
-                })
-
-                if (!res.ok) throw new Error('failed to update favorite')
-                if (!token) throw new Error('no token')
-            } catch (err) {
-                console.error('failed to update favorite:', err)
-                setFavorites(prev =>
-                    isFav ? [...prev, id] : prev.filter(favId => favId !== id)
-                )
-            }
+            setFavorites(prev =>
+            isFav ? prev.filter(favId => favId !== id) : [...prev, id]
+        )
         } else {
-            setShowAuth(true)
+            alert('you need to register or log in to add favorites')
+            return
         }
     }
 
@@ -255,7 +238,6 @@ const PetList: React.FC = () => {
                                     toggleFavorite(animal._id)
                                 } else {
                                     setPendingFavoriteId(animal._id)
-                                    setShowAuth(true)
                                 }
                             }}
                             className="absolute top-2 right-2 z-20 text-2xl hover:scale-[1.1] transition"
@@ -278,7 +260,6 @@ const PetList: React.FC = () => {
                                 if (!confirmDelete) return
 
                                 if (!token) {
-                                    setShowAuth(true)
                                     setPendingFavoriteId(animal._id)
                                     return
                                 }
@@ -327,24 +308,6 @@ const PetList: React.FC = () => {
             )}
 
             <div className="absolute bottom-0 left-0 w-full h-[6svh] bg-gradient-to-t from-black/10 to-transparent pointer-events-none z-10" />
-
-            {showAuth && (
-                <AuthModal
-                    onClose={() => {
-                        setShowAuth(false)
-                        setPendingFavoriteId(null)
-                    }}
-                    onSuccess={newToken => {
-                        setToken(newToken)
-                        setShowAuth(false)
-
-                        if (pendingFavoriteId) {
-                            toggleFavorite(pendingFavoriteId)
-                            setPendingFavoriteId(null)
-                        }
-                    }}
-                />
-            )}
         </div>
     )
 }
