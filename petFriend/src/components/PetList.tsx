@@ -251,7 +251,7 @@ const PetList: React.FC = () => {
                                 if (isLoggedIn && favoritesLoaded) {
                                     toggleFavorite(animal._id)
                                 } else {
-                                    alert('You need to register or log in to add favorites');
+                                    alert('You need to log in to add favorites');
                                 }
                             }}
                             className="absolute top-2 right-2 z-20 text-2xl hover:scale-[1.1] transition"
