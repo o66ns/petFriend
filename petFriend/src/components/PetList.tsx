@@ -87,43 +87,34 @@ const PetList: React.FC = () => {
 
     const [favorites, setFavorites] = useState<string[]>([])
     const [favoritesLoaded, setFavoritesLoaded] = useState(false)
-    const [pendingFavoriteId, setPendingFavoriteId] = useState<string | null>(null)
-    const [token, setToken] = useState<string | null>(localStorage.getItem('token'))
+    const [token] = useState<string | null>(localStorage.getItem('token'))
 
-        useEffect(() => {
-            const fetchFavorites = async () => {
-                try {
-                    const res = await fetch(`${host}/api/me/favorites`, {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    })
-                    const data = await res.json()
+    useEffect(() => {
+        const fetchFavorites = async () => {
+            try {
+                const res = await fetch(`${host}/api/me/favorites`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                const data = await res.json()
 
-                    const ids = data.map((animal: any) => animal._id)
-                    setFavorites(ids)
-                    setFavoritesLoaded(true)
-                } catch (err) {
-                    console.error('failed to load favorites:', err)
-                }
+                const ids = data.map((animal: any) => animal._id)
+                setFavorites(ids)
+                setFavoritesLoaded(true)
+            } catch (err) {
+                console.error('failed to load favorites:', err)
             }
+        }
 
-            fetchFavorites()
-        }, [token])
+        fetchFavorites()
+    }, [token])
 
     const toggleFavorite = async (id: string) => {
         const isFav = favorites.includes(id)
-
-        
-
-        if (token) {
-            setFavorites(prev =>
-            isFav ? prev.filter(favId => favId !== id) : [...prev, id]
-        )
-        } else {
-            alert('you need to register or log in to add favorites')
-            return
-        }
+        setFavorites(prev =>
+                isFav ? prev.filter(favId => favId !== id) : [...prev, id]
+            )
     }
 
     return (
@@ -237,7 +228,7 @@ const PetList: React.FC = () => {
                                 if (isLoggedIn && favoritesLoaded) {
                                     toggleFavorite(animal._id)
                                 } else {
-                                    setPendingFavoriteId(animal._id)
+                                    alert('you need to register or log in to add favorites')
                                 }
                             }}
                             className="absolute top-2 right-2 z-20 text-2xl hover:scale-[1.1] transition"
@@ -260,7 +251,7 @@ const PetList: React.FC = () => {
                                 if (!confirmDelete) return
 
                                 if (!token) {
-                                    setPendingFavoriteId(animal._id)
+                                    alert('you need to register or log in to add favorites')
                                     return
                                 }
 
