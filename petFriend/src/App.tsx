@@ -13,7 +13,7 @@ import AddAnimal from "./pages/AddAnimal"
 function App() {
   return (
 
-    <div className='flex flex-col justify-between min-h-full'>
+    <div className='flex flex-col justify-between min-h-[100svh]'>
       <Header />
 
       <Routes>
