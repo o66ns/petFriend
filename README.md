@@ -19,8 +19,9 @@ Authorized users can also add animals to favorites and create new animal cards o
   - color  
   - gender  
   - (and more criteria)  
-- ➕ Add a new animal (**authorization required**)  / Delete a card
-- ❤️ Add animals to favorites  
+- ➕ Add a new animal (**authorization required**)
+- 🗑 Delete an animal card  
+- ❤️ Add animals to favorites (**authorization required**)
 - ❌ Remove from favorites  
 - 📄 View detailed animal information  
 
@@ -79,15 +80,15 @@ docker-compose up --build
 
 ## 🚧 Future Improvements
 
-🐕 Add pagination for large animal catalogs
-🔑 Social login (Google)
-📱 Mobile-first improvements
-📨 Adoption requests
-🖼 Image optimization and gallery for each animal
-🏡 Free adaptation for the local Ivano-Frankivsk shelter “Dim Sirka”
+- 🐕 Add pagination for large animal catalogs
+- 🔑 Social login (Google)
+- 📱 Mobile-first improvements
+- 📨 Adoption requests
+- 🖼 Image optimization and gallery for each animal
+- 🏡 Free adaptation for the local Ivano-Frankivsk shelter “Dim Sirka”
 
 ---
 
 ## 👩‍💻 Author
-Alina Zmiievska
-📧 alinazmiievska@gmail.com
+- Alina Zmiievska
+- 📧 alinazmiievska@gmail.com
