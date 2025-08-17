@@ -49,31 +49,31 @@ Authorized users can also add animals to favorites and create new animal cards o
 ## 🚀 Installation & Setup
 
 ### 1. Clone the repository
-```bash
+```
 git clone https://github.com/o66ns/petFriend.git
 cd petFriend
-2. Install dependencies
-bash
-Copy
-Edit
+```
+### 2. Install dependencies
+```
 npm install
-3. Run the frontend
-bash
-Copy
-Edit
-cd client
+```
+### 3. Run the frontend
+``` 
+cd petfriend
 npm run dev
-4. Run the backend
-bash
-Copy
-Edit
-cd server
-npm start
-5. Open in browser
-arduino
-Copy
-Edit
+```
+### 4. Run the backend
+```
+cd backend
+npm run dev
+```
+### 5. Open in browser
 http://localhost:5173
+
+### Or run with docker (Docker instalation needed)
+```
+docker-compose up --build
+```
 
 
 
