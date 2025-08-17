@@ -48,8 +48,8 @@ Authorized users can also add animals to favorites and create new animal cards o
 
 ## 🚀 Installation & Setup
 
-### 1. Clone the repository
-```bash
+### 1. Clone the repository (terminal: bash/powershell/...)
+```
 git clone https://github.com/o66ns/petFriend.git
 cd petFriend
 ```
