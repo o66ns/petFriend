@@ -75,7 +75,7 @@ http://localhost:5173
 docker-compose up --build
 ```
 
-
+---
 
 ## 🚧 Future Improvements
 
@@ -85,6 +85,8 @@ docker-compose up --build
 📨 Adoption requests
 🖼 Image optimization and gallery for each animal
 🏡 Free adaptation for the local Ivano-Frankivsk shelter “Dim Sirka”
+
+---
 
 ## 👩‍💻 Author
 Alina Zmiievska
