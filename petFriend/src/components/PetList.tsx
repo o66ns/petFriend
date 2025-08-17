@@ -112,9 +112,32 @@ const PetList: React.FC = () => {
 
     const toggleFavorite = async (id: string) => {
         const isFav = favorites.includes(id)
+
         setFavorites(prev =>
-                isFav ? prev.filter(favId => favId !== id) : [...prev, id]
-            )
+            isFav ? prev.filter(favId => favId !== id) : [...prev, id]
+        )
+
+        if (token) {
+            try {
+                const res = await fetch(`${host}/api/me/favorites/${id}`, {
+                    method: isFav ? 'DELETE' : 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+
+                if (!res.ok) throw new Error('failed to update favorite')
+                if (!token) throw new Error('no token')
+            } catch (err) {
+                console.error('failed to update favorite:', err)
+                setFavorites(prev =>
+                    isFav ? [...prev, id] : prev.filter(favId => favId !== id)
+                )
+            }
+        } else {
+            alert('You need to register or log in to add favorites');
+        }
     }
 
     return (
@@ -227,8 +250,6 @@ const PetList: React.FC = () => {
                                 e.preventDefault()
                                 if (isLoggedIn && favoritesLoaded) {
                                     toggleFavorite(animal._id)
-                                } else {
-                                    alert('you need to register or log in to add favorites')
                                 }
                             }}
                             className="absolute top-2 right-2 z-20 text-2xl hover:scale-[1.1] transition"
@@ -249,11 +270,6 @@ const PetList: React.FC = () => {
                                     'Are you sure you want to delete this cute face looking straight into your soul?'
                                 )
                                 if (!confirmDelete) return
-
-                                if (!token) {
-                                    alert('you need to register or log in to add favorites')
-                                    return
-                                }
 
                                 fetch(`${host}/animals/${animal._id}`, {
                                     method: 'DELETE',
