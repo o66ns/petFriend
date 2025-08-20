@@ -80,7 +80,7 @@ docker-compose up --build
 
 ## 🚧 Future Improvements
 
-- 🐕 Add pagination for large animal catalogs
+- 🐕 Add pagination
 - 🔑 Social login (Google)
 - 📱 Mobile-first improvements
 - 📨 Adoption requests
