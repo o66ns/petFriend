@@ -14,7 +14,7 @@ const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)({
-    origin: ['https://petfriend-c1jx.onrender.com']
+    origin: ['https://petfriend-c1jx.onrender.com', 'http://localhost:5173']
 }));
 app.use(express_1.default.json());
 app.use('/auth', auth_1.default);
@@ -26,6 +26,6 @@ app.get('/', (_req, res) => {
 });
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Сервер слухає на порту ${PORT}: http://localhost:3000`);
+    console.log(`Сервер слухає на порту`);
 });
 //# sourceMappingURL=index.js.map

@@ -15,7 +15,7 @@ dotenv.config()
 const app = express()
 
 app.use(cors({
-    origin: ['https://petfriend-c1jx.onrender.com']
+    origin: ['https://petfriend-c1jx.onrender.com', 'http://localhost:5173']
 }))
 app.use(express.json())
 app.use('/auth', authRouter)
@@ -29,5 +29,5 @@ app.get('/', (_req, res) => {
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
-    console.log(`Сервер слухає на порту ${PORT}: http://localhost:3000`)
+    console.log(`Сервер слухає на порту`)
 })

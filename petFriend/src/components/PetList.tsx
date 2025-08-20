@@ -13,6 +13,7 @@ const PetList: React.FC = () => {
     const [allAnimals, setAllAnimals] = useState<any[]>([])
     const [visibleCount, setVisibleCount] = useState(0)
     const [cols, setCols] = useState(getColsPerRow(window.innerWidth))
+    const [loading, setLoading] = useState(true)
     const isLoggedIn = localStorage.getItem('token') !== null
 
     useEffect(() => {
@@ -23,6 +24,8 @@ const PetList: React.FC = () => {
                 setAllAnimals(data)
             } catch (err) {
                 console.error('error fetching animals:', err)
+            } finally {
+                setLoading(false)
             }
         }
 
@@ -43,7 +46,6 @@ const PetList: React.FC = () => {
     }, [])
 
     // Filters
-
     const [filters, setFilters] = useState({
         type: '',
         age: '',
@@ -84,7 +86,6 @@ const PetList: React.FC = () => {
     }
 
     // Favorites
-
     const [favorites, setFavorites] = useState<string[]>([])
     const [favoritesLoaded, setFavoritesLoaded] = useState(false)
     const [token] = useState<string | null>(localStorage.getItem('token'))
@@ -107,7 +108,7 @@ const PetList: React.FC = () => {
             }
         }
 
-        fetchFavorites()
+        if (token) fetchFavorites()
     }, [token])
 
     const toggleFavorite = async (id: string) => {
@@ -146,6 +147,7 @@ const PetList: React.FC = () => {
 
             <div className='pt-[8svh] text-[10svh] font-semibold text-center'>PETS</div>
 
+            {/* Filters */}
             <div className="px-[4svw] py-6">
                 <div className="bg-white shadow rounded-2xl p-6 grid gap-4 grid-cols-2 sm:grid-cols-3 landscape:grid-cols-4 lg:grid-cols-6">
                     <select name="type" onChange={handleFilterChange} className="border rounded-lg p-2">
@@ -229,73 +231,80 @@ const PetList: React.FC = () => {
                 </div>
             </div>
 
+            {/* Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 landscape:grid-cols-3 lg:grid-cols-4 gap-6 py-[7svh] px-[4svw]">
-                {visibleAnimals.map(animal => (
-                    <div key={animal._id} className="relative">
-                        <Link
-                            to={`/animals/${animal._id}`}
-                            className="h-80 z-0 bg-white rounded-2xl shadow p-4 flex flex-col items-center"
-                        >
-                            <img
-                                src={animal.image ? animal.image : 'https://via.placeholder.com/150'}
-                                className="w-full h-48 object-cover rounded-xl mb-4"
-                            />
-                            <h2 className="text-lg font-semibold">{animal.name}</h2>
-                            <p className="text-sm text-gray-500">{animal.age}</p>
-                            <p className="text-sm text-gray-400">{animal.type} • {animal.temperament}</p>
-                        </Link>
-
-                        <button
-                            onClick={e => {
-                                e.preventDefault()
-                                if (isLoggedIn && favoritesLoaded) {
-                                    toggleFavorite(animal._id)
-                                } else {
-                                    alert('You need to log in to add favorites');
-                                }
-                            }}
-                            className="absolute top-2 right-2 z-20 text-2xl hover:scale-[1.1] transition"
-                        >
-                            <span className={((favorites.includes(animal._id) && favoritesLoaded) || !isLoggedIn
-                                ? 'text-red-500'
-                                : 'text-black') +
-                                ' bg-white rounded-xl p-1 inline-flex items-center justify-center text-[5svh] w-[7svh] h-[7svh]'}
-                            >
-                                ❤︎
-                            </span>
-                        </button>
-
-                        <button
-                            onClick={e => {
-                                e.preventDefault()
-                                const confirmDelete = window.confirm(
-                                    'Are you sure you want to delete this cute face looking straight into your soul?'
-                                )
-                                if (!confirmDelete) return
-
-                                fetch(`${host}/animals/${animal._id}`, {
-                                    method: 'DELETE',
-                                    headers: {
-                                        Authorization: `Bearer ${token}`,
-                                    },
-                                })
-                                    .then(res => {
-                                        if (!res.ok) throw new Error('Failed to delete')
-                                        setAllAnimals(prev => prev.filter(a => a._id !== animal._id))
-                                        setFavorites(prev => prev.filter(id => id !== animal._id))
-                                    })
-                                    .catch(err => {
-                                        alert('Error deleting: ' + err.message)
-                                    })
-                            }}
-                            className="absolute bg-white h-6.5 w-6.5 rounded top-47 right-70 z-20 text-3 transition cursor-pointer"
-                            title="Delete"
-                        >
-                            🗑️
-                        </button>
+                {loading ? (
+                    <div className="col-span-full text-center text-xl text-gray-500">
+                        Loading animal cards...
                     </div>
-                ))}
-                {isLoggedIn && (
+                ) : (
+                    visibleAnimals.map(animal => (
+                        <div key={animal._id} className="relative">
+                            <Link
+                                to={`/animals/${animal._id}`}
+                                className="h-80 z-0 bg-white rounded-2xl shadow p-4 flex flex-col items-center"
+                            >
+                                <img
+                                    src={animal.image ? animal.image : 'https://via.placeholder.com/150'}
+                                    className="w-full h-48 object-cover rounded-xl mb-4"
+                                />
+                                <h2 className="text-lg font-semibold">{animal.name}</h2>
+                                <p className="text-sm text-gray-500">{animal.age}</p>
+                                <p className="text-sm text-gray-400">{animal.type} • {animal.temperament}</p>
+                            </Link>
+
+                            <button
+                                onClick={e => {
+                                    e.preventDefault()
+                                    if (isLoggedIn && favoritesLoaded) {
+                                        toggleFavorite(animal._id)
+                                    } else {
+                                        alert('You need to log in to add favorites');
+                                    }
+                                }}
+                                className="absolute top-2 right-2 z-20 text-2xl hover:scale-[1.1] transition"
+                            >
+                                <span className={((favorites.includes(animal._id) && favoritesLoaded) || !isLoggedIn
+                                    ? 'text-red-500'
+                                    : 'text-black') +
+                                    ' bg-white rounded-xl p-1 inline-flex items-center justify-center text-[5svh] w-[7svh] h-[7svh]'}
+                                >
+                                    ❤︎
+                                </span>
+                            </button>
+
+                            <button
+                                onClick={e => {
+                                    e.preventDefault()
+                                    const confirmDelete = window.confirm(
+                                        'Are you sure you want to delete this cute face looking straight into your soul?'
+                                    )
+                                    if (!confirmDelete) return
+
+                                    fetch(`${host}/animals/${animal._id}`, {
+                                        method: 'DELETE',
+                                        headers: {
+                                            Authorization: `Bearer ${token}`,
+                                        },
+                                    })
+                                        .then(res => {
+                                            if (!res.ok) throw new Error('Failed to delete')
+                                            setAllAnimals(prev => prev.filter(a => a._id !== animal._id))
+                                            setFavorites(prev => prev.filter(id => id !== animal._id))
+                                        })
+                                        .catch(err => {
+                                            alert('Error deleting: ' + err.message)
+                                        })
+                                }}
+                                className="absolute bg-white h-6.5 w-6.5 rounded top-47 right-70 z-20 text-3 transition cursor-pointer"
+                                title="Delete"
+                            >
+                                🗑️
+                            </button>
+                        </div>
+                    ))
+                )}
+                {(!loading && isLoggedIn) && (
                     <Link
                         to="/AddAnimal"
                         className="h-80 bg-white rounded-2xl shadow p-4 flex flex-col justify-center items-center text-5xl font-bold text-gray-500 hover:scale-[1.01] transition"
@@ -305,7 +314,7 @@ const PetList: React.FC = () => {
                 )}
             </div>
 
-            {!allShown && (
+            {!loading && !allShown && (
                 <div className="flex justify-center pb-[6svh]">
                     <button
                         onClick={handleShowMore}
