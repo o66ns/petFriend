@@ -304,29 +304,37 @@ const PetList: React.FC = () => {
                         </div>
                     ))
                 )}
-                {(!loading && isLoggedIn) && (
-                    <Link
-                        to="/AddAnimal"
-                        className="h-80 bg-white rounded-2xl shadow p-4 flex flex-col justify-center items-center text-5xl font-bold text-gray-500 hover:scale-[1.01] transition"
-                    >
-                        +
-                    </Link>
-                )}
+
+                <Link
+                    onClick={e => {
+                        if (!loading && isLoggedIn) {
+                        } else {
+                            e.preventDefault()й'ф
+                            alert('You need to log in to add favorites');
+                        }
+                    }}
+                    to="/AddAnimal"
+                    className="h-80 bg-white rounded-2xl shadow p-4 flex flex-col justify-center items-center text-5xl font-bold text-gray-500 hover:scale-[1.01] transition"
+                >
+                    +
+                </Link>
             </div>
 
-            {!loading && !allShown && (
-                <div className="flex justify-center pb-[6svh]">
-                    <button
-                        onClick={handleShowMore}
-                        className="px-6 py-2 bg-black text-white rounded-xl hover:bg-gray-800 transition"
-                    >
-                        more
-                    </button>
-                </div>
-            )}
+            {
+                !loading && !allShown && (
+                    <div className="flex justify-center pb-[6svh]">
+                        <button
+                            onClick={handleShowMore}
+                            className="px-6 py-2 bg-black text-white rounded-xl hover:bg-gray-800 transition"
+                        >
+                            more
+                        </button>
+                    </div>
+                )
+            }
 
             <div className="absolute bottom-0 left-0 w-full h-[6svh] bg-gradient-to-t from-black/10 to-transparent pointer-events-none z-10" />
-        </div>
+        </div >
     )
 }
 
