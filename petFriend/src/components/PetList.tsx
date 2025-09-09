@@ -276,16 +276,15 @@ const PetList: React.FC = () => {
                             <button
                                 onClick={e => {
                                     if (!loading && isLoggedIn) {
+                                        e.preventDefault()
+                                        const confirmDelete = window.confirm(
+                                            'Are you sure you want to delete this cute face looking straight into your soul?'
+                                        )
+                                        if (!confirmDelete) return
                                     } else {
                                         e.preventDefault()
                                         alert('You need to log in to delete animals');
                                     }
-
-                                    e.preventDefault()
-                                    const confirmDelete = window.confirm(
-                                        'Are you sure you want to delete this cute face looking straight into your soul?'
-                                    )
-                                    if (!confirmDelete) return
 
                                     fetch(`${host}/animals/${animal._id}`, {
                                         method: 'DELETE',
