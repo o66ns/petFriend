@@ -275,6 +275,12 @@ const PetList: React.FC = () => {
 
                             <button
                                 onClick={e => {
+                                    if (!loading && isLoggedIn) {
+                                    } else {
+                                        e.preventDefault()
+                                        alert('You need to log in to delete animals');
+                                    }
+
                                     e.preventDefault()
                                     const confirmDelete = window.confirm(
                                         'Are you sure you want to delete this cute face looking straight into your soul?'
@@ -310,7 +316,7 @@ const PetList: React.FC = () => {
                         if (!loading && isLoggedIn) {
                         } else {
                             e.preventDefault()
-                            alert('You need to log in to add favorites');
+                            alert('You need to log in to add animals');
                         }
                     }}
                     to="/AddAnimal"
