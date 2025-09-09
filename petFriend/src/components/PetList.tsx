@@ -309,7 +309,7 @@ const PetList: React.FC = () => {
                     onClick={e => {
                         if (!loading && isLoggedIn) {
                         } else {
-                            e.preventDefault()й'ф
+                            e.preventDefault()
                             alert('You need to log in to add favorites');
                         }
                     }}
